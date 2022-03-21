@@ -4,12 +4,12 @@ import api from '../api';
 const Users = () => {
     const [users, setUsers] = useState(Object.entries(api.users.fetchAll()));
     const handleLineDelete = (id) => {
-        setUsers(prevState => prevState.filter(user => user !== id))
+        setUsers(prevState => prevState.filter(user => user !== id));
     }
     const numberOfPeople = () => {
-        const a = `${users.length} человек тусанет с тобой сегодня`
-        const b = `${users.length} человека тусанут с тобой сегодня`
-        const c = `Никто с тобой не тусанет`
+        const a = `${users.length} человек тусанет с тобой сегодня`;
+        const b = `${users.length} человека тусанут с тобой сегодня`;
+        const c = `Никто с тобой не тусанет`;
         switch (users.length) {
             case 12:
             case 11:
@@ -20,17 +20,15 @@ const Users = () => {
             case 6:
             case 5:
             case 1:
-                return a
-                break
+                return a;
             case 2:
             case 3:
             case 4:
-                console.log(users.length)
-                return b
-                break
+                return b;
             case 0:
-                console.log(users.length)
-                return c
+                return c;
+            default:
+                return c;
         }
     }
     const getBageClasses = () => {
