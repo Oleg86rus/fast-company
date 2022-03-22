@@ -5,7 +5,7 @@ const Users = () => {
     const [users, setUsers] = useState(Object.entries(api.users.fetchAll()));
     const handleLineDelete = (id) => {
         setUsers(prevState => prevState.filter(user => user !== id));
-    }
+    };
     const numberOfPeople = () => {
         const a = `${users.length} человек тусанет с тобой сегодня`;
         const b = `${users.length} человека тусанут с тобой сегодня`;
@@ -30,18 +30,18 @@ const Users = () => {
             default:
                 return c;
         }
-    }
+    };
     const getBageClasses = () => {
         let classes = 'badge m-2 ';
         classes += users.length === 0 ? 'bg-danger' : 'bg-primary';
         return classes;
-    }
+    };
     const getSpanColor = (el) => {
         let classes = 'p-1 m-1 badge align-middle bg-';
         classes += el.color
         return classes;
-    }
-    const deleteBurron = (user) => {
+    };
+    const deleteButton = (user) => {
         return (
             <button type="button"
                     className="btn btn-danger"
@@ -49,11 +49,15 @@ const Users = () => {
             >
                 delete
             </button>
-        )
-    }
-    return (
-        <>
+        );
+    };
+    const renderBage = () => {
+        return (
             <h2><span className={getBageClasses()}>{numberOfPeople()}</span></h2>
+        );
+    };
+    const renderTable = () => {
+        return (
             <table className="table">
                 <thead>
                 <tr>
@@ -75,13 +79,27 @@ const Users = () => {
                         <td className='align-middle'>{user[1].completedMeetings}</td>
                         <td className='align-middle'>{user[1].rate}/5</td>
                         <td className='align-middle'>
-                            {deleteBurron(user)}
+                            {deleteButton(user)}
                         </td>
                     </tr>
                 ))}
                 </tbody>
-
             </table>
+        );
+    };
+
+    if (users.length !== 0) {
+        return (
+            <>
+                {renderBage()}
+                {renderTable()}
+            </>
+        );
+    }
+
+    return (
+        <>
+            {renderBage()}
         </>
     );
 };
