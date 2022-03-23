@@ -25,10 +25,10 @@ const Users = () => {
 
     const renderBageText = (number) => {
         const lastLetter = Number(number.toString().slice(-1));
-        if (number > 4 && number < 15) return "Человек тусанёт с тобой сегодня";
-        if ([2,3,4].indexOf(lastLetter) >= 0) return 'Человека тусанут с тобой сегодня';
-        if (lastLetter === 1) return "Человек тусанёт с тобой сегодня";
-        return "Человек тусанёт с тобой сегодня"
+        if (number > 4 && number < 15) return "Человек тусанёт";
+        if ([2,3,4].indexOf(lastLetter) >= 0) return 'Человека тусанут';
+        if (lastLetter === 1) return "Человек тусанёт";
+        return "Человек тусанёт"
     }
 
     return (
@@ -36,10 +36,12 @@ const Users = () => {
             <h2>
                 <span className={'badge bg-' + (!users.length ? 'danger' : 'primary')}>
                     {
-                        users.length ? `${users.length} ${renderBageText(users.length)}` : 'Никто с тобой не тусанет'
+                        users.length ? `${users.length} ${renderBageText(users.length)} с тобой сегодня` : 'Никто с тобой не тусанет'
                     }
                 </span>
             </h2>
+            {users.length > 0 &&
+            (
             <table className="table">
                 <thead>
                 <tr>
@@ -67,6 +69,7 @@ const Users = () => {
                 ))}
                 </tbody>
             </table>
+            )}
         </>
     );
 };
