@@ -1,14 +1,16 @@
-import React, {useState} from "react";
+import React from "react";
 import Qualities from "./qualities";
 import Bookmark from "./bookmark";
 
 const User = (props) => {
+    const {name, _id, qualities, profession, rate, completedMeetings, changePriority, getSpanColor, onDelete} = props
 
     const deleteButton = () => {
+
         return (
             <button type="button"
                     className="btn btn-danger"
-                    onClick={()=> props.onDelete(props._id)}
+                    onClick={()=> onDelete(_id)}
             >
                 Удалить
             </button>
@@ -17,23 +19,23 @@ const User = (props) => {
 
      return (
          <>
-             <tr key={props._id}>
-                 <td className='align-middle'>{props.name}</td>
+             <tr key={_id}>
+                 <td className='align-middle'>{name}</td>
                  <td className='align-middle'>
-                     {props.qualities.map((quality) => (
+                     {qualities.map((quality) => (
                          <Qualities
                              key={quality._id}
-                             getSpanColor={props.getSpanColor}
+                             getSpanColor={getSpanColor}
                              {...quality}
                          />
                      ))}
                  </td>
-                 <td className='align-middle'>{props.profession.name}</td>
-                 <td className='align-middle'>{props.completedMeetings}</td>
-                 <td className='align-middle'>{props.rate}/5</td>
+                 <td className='align-middle'>{profession.name}</td>
+                 <td className='align-middle'>{completedMeetings}</td>
+                 <td className='align-middle'>{rate}/5</td>
                  <td className='align-middle'>
                      <Bookmark
-                         changePriority={props.changePriority}
+                         changePriority={changePriority}
                      />
                  </td>
                  <td className='align-middle'>
@@ -41,8 +43,7 @@ const User = (props) => {
                  </td>
              </tr>
          </>
-     )
-
-}
+     );
+};
 
 export default User;

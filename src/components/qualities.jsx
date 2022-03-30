@@ -1,11 +1,13 @@
 import React from "react";
 
 const Qualities = (props) => {
+    const {_id, getSpanColor, name} = props;
 
     return (
         <>
-               <span key={props._id} className={props.getSpanColor(props)}>{props.name}</span>
+               <span key={_id} className={getSpanColor(props)}>{name}</span>
         </>
-    )
-}
+    );
+};
+
 export default Qualities;

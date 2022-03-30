@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import User from "./user";
 import SearchStatus from "./searchStatus";
 
@@ -39,7 +39,7 @@ const UserLine = (props) => {
                 </table>
             }
         </>
-    )
+    );
 };
 
 export default UserLine;
