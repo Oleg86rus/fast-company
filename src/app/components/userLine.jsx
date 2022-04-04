@@ -1,16 +1,11 @@
 import React from "react";
 import User from "./user";
-import SearchStatus from "./searchStatus";
 
-const UserLine = (props) => {
+const UserLine = ({ users, ...rest }) => {
 
     return (
         <>
-            <SearchStatus
-                length={props.length}
-                renderBageText={props.renderBageText}
-            />
-            {props.length > 0 &&
+            {users.length > 0 &&
                 <table className="table">
                     <thead>
                     <tr>
@@ -24,17 +19,9 @@ const UserLine = (props) => {
                     </tr>
                     </thead>
                     <tbody>
-                    {props.users.map((user) => (
-                        <User
-                            key={user._id}
-                            renderBageText={props.renderBageText}
-                            onDelete={props.handleLineDelete}
-                            getSpanColor={props.getSpanColor}
-                            changePriority={props.changePriority}
-                            {...user}
-                        >
-                        </User>
-                    ))}
+                    {users.map((user) => (
+                            <User key={user._id} {...rest} {...user} />
+                        ))}
                     </tbody>
                 </table>
             }
