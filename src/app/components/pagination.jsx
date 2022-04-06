@@ -14,7 +14,8 @@ const Pagination = ({itemsCount, pageSize, onPageChange, currentPage}) => {
                             <li
                                 key={'page_' + page}
                                 className={
-                                    'page-item' + (page === currentPage ? ' active' : '')
+                                    'page-item' +
+                                    (page === currentPage ? ' active' : '')
                                 }
                             >
                                 <button
@@ -35,6 +36,6 @@ Pagination.propTypes = {
     itemsCount: PropTypes.number.isRequired,
     pageSize: PropTypes.number.isRequired,
     onPageChange: PropTypes.func.isRequired,
-    currentPage: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired
 };
 export default Pagination;

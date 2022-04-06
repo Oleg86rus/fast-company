@@ -45,6 +45,6 @@ const UserLine = ({users, ...rest}) => {
     );
 };
 UserLine.propTypes = {
-    users: PropTypes.array.isRequired,
+    users: PropTypes.array.isRequired
 };
 export default UserLine;

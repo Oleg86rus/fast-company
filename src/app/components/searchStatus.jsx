@@ -12,15 +12,19 @@ const SearchStatus = ({length}) => {
 
     return (
         <h2>
-            <span className={'badge ' + (length > 0 ? 'bg-primary' : 'bg-danger')}>
+            <span
+                className={'badge ' + (length > 0 ? 'bg-primary' : 'bg-danger')}
+            >
                 {length > 0 ?
-                    `${length + ' ' + renderBageText(length)}   с тобой сегодня` :
+                    `${
+                        length + ' ' + renderBageText(length)
+                    }   с тобой сегодня` :
                     'Никто с тобой не тусанет'}
             </span>
         </h2>
     );
 };
 SearchStatus.propTypes = {
-    length: PropTypes.number.isRequired,
+    length: PropTypes.number.isRequired
 };
 export default SearchStatus;

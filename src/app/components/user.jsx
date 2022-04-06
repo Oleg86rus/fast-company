@@ -13,7 +13,7 @@ const User = (props) => {
         rate,
         onDelete,
         bookmark,
-        onToggleBookMark,
+        onToggleBookMark
     } = props;
 
     const deleteButton = () => {
@@ -22,7 +22,8 @@ const User = (props) => {
                 type="button"
                 className="btn btn-danger"
                 onClick={() => onDelete(_id)}
-            >Удалить
+            >
+                Удалить
             </button>
         );
     };
@@ -33,14 +34,21 @@ const User = (props) => {
                 <td>{name}</td>
                 <td>
                     {qualities.map((quality) => (
-                        <Qualities key={quality._id} _id={quality._id} {...quality} />
+                        <Qualities
+                            key={quality._id}
+                            _id={quality._id}
+                            {...quality}
+                        />
                     ))}
                 </td>
                 <td>{profession.name}</td>
                 <td>{completedMeetings}</td>
                 <td>{rate}/5</td>
                 <td>
-                    <Bookmark status={bookmark} onClick={() => onToggleBookMark(_id)}/>
+                    <Bookmark
+                        status={bookmark}
+                        onClick={() => onToggleBookMark(_id)}
+                    />
                 </td>
                 <td>{deleteButton()}</td>
             </tr>
@@ -56,6 +64,6 @@ User.propTypes = {
     rate: PropTypes.number.isRequired,
     onDelete: PropTypes.func.isRequired,
     bookmark: PropTypes.bool.isRequired,
-    onToggleBookMark: PropTypes.func.isRequired,
+    onToggleBookMark: PropTypes.func.isRequired
 };
 export default User;
