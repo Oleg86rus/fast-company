@@ -12,7 +12,6 @@ const UserLine = ({users, ...rest}) => {
         setCurrentPage(pageIndex);
     };
     const userCrop = paginate(users, currentPage, pageSize);
-
     return (
         <>
             {count > 0 && (
@@ -31,7 +30,8 @@ const UserLine = ({users, ...rest}) => {
                     <tbody>
                         {userCrop.map((user) => (
                             <User key={user._id} {...rest} {...user} />
-                        ))}
+                        ))
+                        }
                     </tbody>
                 </table>
             )}
@@ -40,6 +40,7 @@ const UserLine = ({users, ...rest}) => {
                 pageSize={pageSize}
                 currentPage={currentPage}
                 onPageChange={handlePageChange}
+                onToggleBookMark={rest.onToggleBookMark}
             />
         </>
     );
