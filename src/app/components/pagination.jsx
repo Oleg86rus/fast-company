@@ -7,7 +7,7 @@ const Pagination = ({itemsCount, pageSize, onPageChange, currentPage}) => {
     const pages = _.range(1, pageCount + 1);
     useEffect(()=>{
         if (itemsCount % pageSize === 0 && currentPage > itemsCount / pageSize) onPageChange(itemsCount / pageSize);
-    }, [itemsCount, pageSize, currentPage, onPageChange]);
+    }, [itemsCount]);
     return (
         <>
             {currentPage.length === 0 ? null : (
