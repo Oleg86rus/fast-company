@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import UserLine from './components/userLine';
 import API from './api';
+import {loading} from './utils/loading';
 
 const App = () => {
     const [users, setUsers] = useState(API.users.fetchAll());
@@ -21,6 +22,7 @@ const App = () => {
             })
         );
     };
+    loading();
     return (
         <div>
             <UserLine

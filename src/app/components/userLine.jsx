@@ -12,7 +12,6 @@ const UserLine = ({users, ...rest}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
-    // console.log();
     useEffect(() => {
         API.professions.fetchAll().then((data) => setProfessions(data));
     }, []);
@@ -20,25 +19,19 @@ const UserLine = ({users, ...rest}) => {
     useEffect(()=> {
         setCurrentPage(1);
     }, [selectedProf]);
-    // console.log(professions);
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
     };
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
-    // console.log('users: ', users);
-
     const filteredUsers = selectedProf ? users.filter((user) => {
-        console.log('selectedPROF: ', selectedProf.name);
-        console.log('PROFESSION: ', user.profession.name);
         return user.profession.name === selectedProf.name;
     }) : users;
     const count = filteredUsers.length;
-    // console.log('filteredUsers: ', filteredUsers);
     const userCrop = paginate(filteredUsers, currentPage, pageSize);
     const clearFilter = () => {
-        setSelectedProf(undefined);
+        setSelectedProf();
     };
 
     return (
@@ -56,7 +49,7 @@ const UserLine = ({users, ...rest}) => {
                 </div>
             )}
             <div className="d-flex flex-column">
-                <SearchStatus length={count}/>
+                <SearchStatus professions={professions} length={users.length}/>
 
                 {count > 0 && (
                     <table className="table">
@@ -81,6 +74,7 @@ const UserLine = ({users, ...rest}) => {
                 )}
                 <div className="d-flex justify-content-center">
                     <Pagination
+                        clearFilter={clearFilter}
                         itemsCount={count}
                         pageSize={pageSize}
                         currentPage={currentPage}
