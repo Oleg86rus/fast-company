@@ -21,7 +21,7 @@ const SearchStatus = ({length, professions}) => {
     );
 };
 SearchStatus.propTypes = {
-    length: PropTypes.number.isRequired,
+    length: PropTypes.number,
     professions: PropTypes.array
 };
 export default SearchStatus;
