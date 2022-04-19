@@ -38,9 +38,15 @@ const UserTable = ({users, onSort, selectedSort, onToggleBookMark, onDelete}) =>
             </button>
         )}
     };
+    const caret = (path) => {
+        if (path === selectedSort.path) {
+            const caretDirection = selectedSort.order === 'asc' ? 'up' : 'down';
+            return <i className={`bi bi-caret-${caretDirection}-fill`}/>;
+        }
+    };
     return (
         <Table onSort={onSort} selectedSort={selectedSort} columns={columns} data={users}>
-            <TableHeader {...{onSort, selectedSort, columns}} />
+            <TableHeader renderCarer={caret} {...{onSort, selectedSort, columns}} />
             <TableBody {...{columns, data: users}} />
         </Table>
     );

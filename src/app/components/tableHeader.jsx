@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TableHeader = ({onSort, selectedSort, columns}) => {
+const TableHeader = ({onSort, selectedSort, columns, renderCarer}) => {
     const handleSort = (item) => {
         if (selectedSort.path === item) {
             onSort({...selectedSort, order: selectedSort.order === 'asc' ? 'desc' : 'asc'});
@@ -9,6 +9,7 @@ const TableHeader = ({onSort, selectedSort, columns}) => {
             onSort({path: item, order: 'asc'});
         }
     };
+
     return (
         <thead>
             <tr>
@@ -16,14 +17,15 @@ const TableHeader = ({onSort, selectedSort, columns}) => {
                     <th
                         key={column}
                         onClick={columns[column].path ? () => {
-                            console.log(columns[column].name);
-                            columns[column].name+=123;
                             handleSort(columns[column].path);
                         } : undefined}
                         {...{role: columns[column].path&&'button'}}
                         scope="col"
                     >
-                        {columns[column].name}
+                        <>
+                            {columns[column].name}
+                            {renderCarer(columns[column].path)}
+                        </>
                     </th>
                 ))}
             </tr>
@@ -33,6 +35,7 @@ const TableHeader = ({onSort, selectedSort, columns}) => {
 TableHeader.propTypes = {
     onSort: PropTypes.func.isRequired,
     selectedSort: PropTypes.object.isRequired,
-    columns: PropTypes.object.isRequired
+    columns: PropTypes.object.isRequired,
+    renderCarer: PropTypes.func
 };
 export default TableHeader;

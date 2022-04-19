@@ -10,7 +10,7 @@ import _ from 'lodash';
 import {loading} from '../utils/loading';
 
 const UserLine = () => {
-    const pageSize = 2;
+    const pageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
