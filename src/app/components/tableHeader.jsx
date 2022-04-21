@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function TableHeader ({ onSort, selectedSort, columns, renderCarer }) {
+function TableHeader ({ onSort, selectedSort, columns, renderCaret }) {
   const handleSort = (item) => {
     if (selectedSort.path === item) {
       onSort({
@@ -32,7 +32,7 @@ function TableHeader ({ onSort, selectedSort, columns, renderCarer }) {
             scope="col"
           >
             {columns[column].name}
-            {renderCarer(columns[column].path)}
+            {renderCaret(columns[column].path)}
           </th>
         ))}
       </tr>
@@ -44,6 +44,6 @@ TableHeader.propTypes = {
   onSort: PropTypes.func.isRequired,
   selectedSort: PropTypes.object.isRequired,
   columns: PropTypes.object.isRequired,
-  renderCarer: PropTypes.func
+  renderCaret: PropTypes.func
 };
 export default TableHeader;

@@ -65,7 +65,7 @@ const UserTable = ({
       columns={columns}
       data={users}
     >
-      <TableHeader renderCarer={caret} {...{ onSort, selectedSort, columns }} />
+      <TableHeader renderCaret={caret} {...{ onSort, selectedSort, columns }} />
       <TableBody {...{ columns, data: users }} />
     </Table>
   );
