@@ -7,7 +7,7 @@ import GroupList from './groupList';
 import API from '../api';
 import SearchStatus from './searchStatus';
 import UserTable from './usersTable';
-import loading from '../utils/loading';
+// import loading from '../utils/loading';
 
 function UserLine () {
   const pageSize = 8;
@@ -51,7 +51,7 @@ function UserLine () {
     setCurrentPage(1);
   },
   [selectedProf]);
-  loading();
+  // loading();
   if (users) {
     const filteredUsers = selectedProf
       ? users.filter(
