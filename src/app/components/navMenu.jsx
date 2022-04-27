@@ -1,18 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const NavMenu = () => {
+  const menus = [
+    {
+      id: 0,
+      name: 'Main',
+      link: '/'
+    },
+    {
+      id: 1,
+      name: 'Login',
+      link: '/login'
+    },
+    {
+      id: 2,
+      name: 'Users',
+      link: '/users'
+    }
+  ];
+  const url = useLocation();
+
   return (
-    <ul className="nav">
-      <li className="nav-item">
-        <Link className="nav-link active" aria-current="page" to="/">Main</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/login">Login</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/users">Users</Link>
-      </li>
+    <ul className="nav nav-tabs">
+      {menus.map(el=>(
+        <li key={el.id} className="nav-item">
+          <Link className={url.pathname === el.link ? 'nav-link active': 'nav-link'} to={el.link}>{el.name}</Link>
+        </li>
+      ))}
     </ul>
   );
 };

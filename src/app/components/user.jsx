@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import API from '../api';
 import { useHistory, useParams } from 'react-router-dom';
 import QualitiesList from './qualitiesList';
+import Loading from './loading';
 
 const User = () => {
   const history = useHistory();
@@ -9,28 +10,30 @@ const User = () => {
   const { userId } = params;
   const [user, setUser] = useState();
   useEffect(() => {
-    API.users.getById(userId).then((data) => setUser(data));
+    API.users.getById(userId).then((resolve) => setUser(resolve));
   },
   []);
   const setAllUsers = () => {
     history.replace('/users');
   };
+
   return (
     <>
-      {user
-        ? (
-          <>
-            <h1>{user.name}</h1>
-            <h2>Профессия: {user.profession.name}</h2>
-            <QualitiesList qualities={user.qualities}/>
-            <h4>completedMeetings: {user.completedMeetings}</h4>
-            <h3>Rate: {user.rate}</h3>
-            <button onClick={setAllUsers} type="button"
-              className="btn btn-outline-dark">Все пользователи
-            </button>
-          </>
-        )
-        : <h1>User NotFound</h1>}
+      {user ? (
+        <>
+          <div className="card text-center">
+            <h3 className="card-header ">{user.name}</h3>
+            <div className="card-body text-center">
+              <h4>Профессия: {user.profession.name}</h4>
+              <h4>Качества:</h4>
+              <QualitiesList qualities={user.qualities}/>
+              <h4>Количество встреч: {user.completedMeetings}</h4>
+              <h4>Оценка: {user.rate} </h4>
+            </div>
+            <div className="card-footer text-center"> <button onClick={setAllUsers} className="btn btn-primary">Все пользователи</button></div>
+          </div>
+        </>
+      ) : <Loading/>}
     </>
   );
 };
