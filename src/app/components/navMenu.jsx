@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const NavMenu = () => {
   const menus = [
@@ -19,13 +19,12 @@ const NavMenu = () => {
       link: '/users'
     }
   ];
-  const url = useLocation();
 
   return (
     <ul className="nav nav-tabs">
       {menus.map(el=>(
         <li key={el.id} className="nav-item">
-          <Link className={url.pathname === el.link ? 'nav-link active': 'nav-link'} to={el.link}>{el.name}</Link>
+          <NavLink exact className='nav-link' to={el.link}>{el.name}</NavLink>
         </li>
       ))}
     </ul>
