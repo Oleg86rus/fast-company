@@ -45,7 +45,7 @@ const App = () => {
           </>)} />
         <Route path='/users/:userId?' component={User}/>
         <Route path='/404' component={NotFound}/>
-        <Redirect to='/users/404'/>
+        <Redirect to='/404'/>
       </Switch>
     </div>
   );
