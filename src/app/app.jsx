@@ -11,7 +11,7 @@ import NotFound from './components/not-found';
 const App = () => {
   const [users, setUsers] = useState(API.users.fetchAll());
   useEffect(() => {
-    API.users.fetchAll().then((el) => setUsers(el));
+    API.users.fetchAll().then((data) => setUsers(data));
   },
   []);
   
