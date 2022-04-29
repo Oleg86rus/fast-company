@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import UserLine from './components/userLine';
 import API from './api';
-import loading from './utils/loading';
+import NavMenu from './components/navMenu';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import Main from './components/main';
+import Login from './components/login';
+import User from './components/user';
+import NotFound from './components/not-found';
 
 const App = () => {
   const [users, setUsers] = useState(API.users.fetchAll());
@@ -23,14 +28,25 @@ const App = () => {
       })
     );
   };
-  loading();
+  
   return (
     <div>
-      <UserLine
-        onDelete={handleLineDelete}
-        onToggleBookMark={handleToggleBookMark}
-        users={Object.values(users)}
-      />
+      <NavMenu />
+      <Switch>
+        <Route exact path='/' component={Main} />
+        <Route path='/login' component={Login} />
+        <Route exact path='/users' render={()=>(
+          <>
+            <UserLine
+              onDelete={handleLineDelete}
+              onToggleBookMark={handleToggleBookMark}
+              users={Object.values(users)}
+            /> 
+          </>)} />
+        <Route path='/users/:userId?' component={User}/>
+        <Route path='/404' component={NotFound}/>
+        <Redirect to='/404'/>
+      </Switch>
     </div>
   );
 };

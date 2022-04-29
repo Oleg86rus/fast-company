@@ -7,7 +7,7 @@ import GroupList from './groupList';
 import API from '../api';
 import SearchStatus from './searchStatus';
 import UserTable from './usersTable';
-import loading from '../utils/loading';
+import Loading from './loading';
 
 function UserLine () {
   const pageSize = 8;
@@ -51,7 +51,7 @@ function UserLine () {
     setCurrentPage(1);
   },
   [selectedProf]);
-  loading();
+
   if (users) {
     const filteredUsers = selectedProf
       ? users.filter(
@@ -69,50 +69,51 @@ function UserLine () {
     const clearFilter = () => {
       setSelectedProf();
     };
-    
     return (
-      <div className="d-flex">
-        {professions && (
-          <div className="d-flex flex-column flex-shrink-0 p-3">
-            <GroupList
-              items={professions}
-              onItemSelect={handleProfessionSelect}
-              contentProperty="name"
-              valueProperty="_id"
-              selectedItem={selectedProf}
-            />
-            <button className="btn btn-secondary mt-2" onClick={clearFilter}>
+      <>
+        <div className="d-flex">
+          {professions && (
+            <div className="d-flex flex-column flex-shrink-0 p-3">
+              <GroupList
+                items={professions}
+                onItemSelect={handleProfessionSelect}
+                contentProperty="name"
+                valueProperty="_id"
+                selectedItem={selectedProf}
+              />
+              <button className="btn btn-secondary mt-2" onClick={clearFilter}>
               Очистить
-            </button>
-          </div>
-        )}
-        <div className="d-flex flex-column">
-          <SearchStatus professions={professions} length={users.length}/>
-          
-          {count > 0 && (
-            <UserTable
-              users={userCrop}
-              selectedSort={sortBy}
-              onSort={handleSort}
-              onDelete={handleLineDelete}
-              onToggleBookMark={handleToggleBookMark}
-            />
+              </button>
+            </div>
           )}
-          <div className="d-flex justify-content-center">
-            <Pagination
-              clearFilter={clearFilter}
-              itemsCount={count}
-              pageSize={pageSize}
-              currentPage={currentPage}
-              onPageChange={handlePageChange}
-              onToggleBookMark={handleToggleBookMark}
-            />
+          <div className="d-flex flex-column">
+            <SearchStatus professions={professions} length={users.length}/>
+          
+            {count > 0 && (
+              <UserTable
+                users={userCrop}
+                selectedSort={sortBy}
+                onSort={handleSort}
+                onDelete={handleLineDelete}
+                onToggleBookMark={handleToggleBookMark}
+              />
+            )}
+            <div className="d-flex justify-content-center">
+              <Pagination
+                clearFilter={clearFilter}
+                itemsCount={count}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+                onToggleBookMark={handleToggleBookMark}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
-  return null;
+  return <Loading/>;
 }
 
 UserLine.propTypes = {
