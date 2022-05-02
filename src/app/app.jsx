@@ -3,9 +3,9 @@ import UserLine from './components/userLine';
 import API from './api';
 import NavMenu from './components/navMenu';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import Main from './components/main';
-import Login from './components/login';
-import User from './components/user';
+import Main from './components/lauouts/main';
+import Login from './components/lauouts/login';
+import User from './components/lauouts/user';
 import NotFound from './components/not-found';
 
 const App = () => {
