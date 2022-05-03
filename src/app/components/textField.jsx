@@ -13,7 +13,6 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
     <div className="mb-4">
       <label htmlFor={name}> {label}</label>
       <div className="input-group has-validation">
-  
         <input
           type={showPassword ? 'text' : type}
           id={name}
@@ -33,7 +32,6 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
         )}
         {error && <div className="invalid-feedback">{error}</div>}
       </div>
-      
     </div>
   );
 };

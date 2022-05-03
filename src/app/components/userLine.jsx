@@ -8,6 +8,7 @@ import API from '../api';
 import SearchStatus from './searchStatus';
 import UserTable from './usersTable';
 import Loading from './loading';
+import SearchUsers from './searchUsers';
 
 function UserLine () {
   const pageSize = 8;
@@ -88,7 +89,7 @@ function UserLine () {
           )}
           <div className="d-flex flex-column">
             <SearchStatus professions={professions} length={users.length}/>
-          
+            <SearchUsers/>
             {count > 0 && (
               <UserTable
                 users={userCrop}

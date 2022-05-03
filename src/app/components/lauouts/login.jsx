@@ -38,7 +38,6 @@ const Login = () => {
   const validate = () => {
     // eslint-disable-next-line no-shadow
     const errors = validator(data, validatorConfig);
-    ;
     // eslint-disable-next-line no-restricted-syntax
     // for (const fieldName in data) {
     //   if (data[fieldName].trim() === '') {
