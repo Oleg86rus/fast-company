@@ -7,7 +7,6 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const handleChange = ({target}) => {
     setData((prevState)=>({...prevState, [target.name]: target.value}));
-    console.log(target.name);
   };
   const validatorConfig = {
     email: {
@@ -38,26 +37,23 @@ const Login = () => {
   const validate = () => {
     // eslint-disable-next-line no-shadow
     const errors = validator(data, validatorConfig);
-    // eslint-disable-next-line no-restricted-syntax
-    // for (const fieldName in data) {
-    //   if (data[fieldName].trim() === '') {
-    //     errors[fieldName] = `${fieldName} обязательно для заполнения`;
-    //   }
-    // }
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
+  
   useEffect(()=> {
     validate();
   }, [data]);
-
+  const isValid = Object.keys(errors).length === 0;
+  
   const handleSubmit = (e) => {
     e.preventDefault();
+    // eslint-disable-next-line no-shadow
     const isValid = validate();
     if (!isValid) return;
     console.log(data);
   };
-  const isValid = Object.keys(errors).length === 0;
+
   return (
     <div className="container mt-5">
       <div className="row">

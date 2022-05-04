@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const SearchUsers = () => {
-  const [userName, setUserName] = useState('');
-  const handleChange = (e) => {
-    setUserName(e.target.value);
-  };
-  useEffect(()=> {
-    console.log(userName);
-  }, [userName]);
+const SearchUsers = ({ userName, handleChange }) => {
+
   return (
     <div className="mb-3">
       <input
@@ -20,5 +15,9 @@ const SearchUsers = () => {
       />
     </div>
   );
+};
+SearchUsers.propTypes = {
+  handleChange: PropTypes.func,
+  userName: PropTypes.string
 };
 export default SearchUsers;

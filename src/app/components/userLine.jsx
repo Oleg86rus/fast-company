@@ -17,13 +17,21 @@ function UserLine () {
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' });
   const [users, setUsers] = useState();
+  const [userName, setUserName] = useState('');
   useEffect(() => {
     API.users.fetchAll().then((data) => setUsers(data));
   },
   []);
+
   const handleLineDelete = (id) => {
     setUsers(users.filter((user) => user._id !== id));
   };
+  
+  const handleLineFindUser = (e) => {
+    setSelectedProf();
+    setUserName(e.target.value);
+  };
+
   const handleToggleBookMark = (id) => {
     setUsers(
       users.map((user) => {
@@ -52,14 +60,17 @@ function UserLine () {
     setCurrentPage(1);
   },
   [selectedProf]);
-
+  
   if (users) {
+    const filteredUserList = users.filter(user => {
+      return user.name.toLowerCase().includes(userName.toLowerCase());
+    });
     const filteredUsers = selectedProf
       ? users.filter(
         (user) =>
           JSON.stringify(user.profession) === JSON.stringify(selectedProf)
       )
-      : users;
+      : filteredUserList;
     const count = filteredUsers.length;
     const sortedUsers = _.orderBy(filteredUsers,
       [sortBy.path],
@@ -89,7 +100,7 @@ function UserLine () {
           )}
           <div className="d-flex flex-column">
             <SearchStatus professions={professions} length={users.length}/>
-            <SearchUsers/>
+            <SearchUsers userName={userName} handleChange={handleLineFindUser}/>
             {count > 0 && (
               <UserTable
                 users={userCrop}
