@@ -30,5 +30,6 @@ module.exports = {
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
     'consistent-return': 0
+    // 'no-shadow': 'off'
   }
 };

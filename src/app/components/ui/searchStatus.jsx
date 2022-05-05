@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SearchStatus = ({ length, professions }) => {
+const SearchStatus = ({ length }) => {
   const renderBageText = (number) => {
     const lastLetter = Number(number.toString().slice(-1));
     if (number > 4 && number < 15) return 'Человек тусанёт';
@@ -11,23 +11,19 @@ const SearchStatus = ({ length, professions }) => {
   };
 
   return (
-    <>
-      {professions && (
-        <h2>
-          <span
-            className={'badge ' + (length > 0 ? 'bg-primary' : 'bg-danger')}
-          >
-            {length > 0
-              ? `${length + ' ' + renderBageText(length)} с тобой сегодня`
-              : 'Никто с тобой не тусанет'}
-          </span>
-        </h2>
-      )}
-    </>
+    <h2>
+      <span
+        className={'badge ' + (length > 0 ? 'bg-primary' : 'bg-danger')}
+      >
+        {length > 0
+          ? `${length + ' ' + renderBageText(length)} с тобой сегодня`
+          : 'Никто с тобой не тусанет'}
+      </span>
+    </h2>
   );
 };
 SearchStatus.propTypes = {
-  length: PropTypes.number,
-  professions: PropTypes.array
+  length: PropTypes.number
+  // professions: PropTypes.array
 };
 export default SearchStatus;
