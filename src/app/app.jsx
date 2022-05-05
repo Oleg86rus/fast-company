@@ -6,7 +6,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import Main from './components/layouts/main';
 import Login from './components/layouts/login';
 import Users from './components/layouts/users';
-import NotFound from './components/not-found';
+import NotFound from './components/page/not-found';
 
 const App = () => {
   const [users, setUsers] = useState(API.users.fetchAll());

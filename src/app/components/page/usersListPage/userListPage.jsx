@@ -7,8 +7,8 @@ import GroupList from '../../common/groupList';
 import API from '../../../api';
 import SearchStatus from '../../ui/searchStatus';
 import UserTable from '../../ui/usersTable';
-import Loading from '../../loading';
-import SearchUsers from '../../searchUsers';
+import Loading from '../../ui/loading';
+import SearchUsers from '../../ui/searchUsers';
 
 function UsersListPage () {
   const pageSize = 8;
