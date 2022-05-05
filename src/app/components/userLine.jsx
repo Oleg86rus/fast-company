@@ -31,7 +31,7 @@ function UserLine () {
     setSelectedProf();
     setUserName(e.target.value);
   };
-
+  
   const handleToggleBookMark = (id) => {
     setUsers(
       users.map((user) => {
@@ -60,7 +60,7 @@ function UserLine () {
     setCurrentPage(1);
   },
   [selectedProf]);
-  
+
   if (users) {
     const filteredUserList = users.filter(user => {
       return user.name.toLowerCase().includes(userName.toLowerCase());
@@ -81,6 +81,7 @@ function UserLine () {
     const clearFilter = () => {
       setSelectedProf();
     };
+
     return (
       <>
         <div className="d-flex">
@@ -99,8 +100,8 @@ function UserLine () {
             </div>
           )}
           <div className="d-flex flex-column">
-            <SearchStatus professions={professions} length={users.length}/>
-            <SearchUsers userName={userName} handleChange={handleLineFindUser}/>
+            <SearchStatus professions={professions} length={count}/>
+            {users.length ? <SearchUsers userName={userName} handleChange={handleLineFindUser}/> : null}
             {count > 0 && (
               <UserTable
                 users={userCrop}

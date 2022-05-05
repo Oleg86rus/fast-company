@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const SearchUsers = ({ userName, handleChange }) => {
-
+  
   return (
     <div className="mb-3">
       <input
