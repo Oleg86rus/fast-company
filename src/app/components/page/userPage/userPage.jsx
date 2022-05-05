@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import API from '../../api';
+import API from '../../../api';
 import { useHistory, useParams } from 'react-router-dom';
-import QualitiesList from '../qualitiesList';
-import Loading from '../loading';
+import QualitiesList from '../../ui/qualities/qualitiesList';
+import Loading from '../../loading';
 
 const User = () => {
   const history = useHistory();
