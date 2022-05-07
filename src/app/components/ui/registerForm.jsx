@@ -16,19 +16,29 @@ const RegisterForm = () => {
     qualities: [],
     licence: false
   });
-  const [qualities, setQualities] = useState({});
+  const [qualities, setQualities] = useState([]);
   const [errors, setErrors] = useState({});
   const [professions, setProfessions] = useState([]);
   const handleChange = (target) => {
     setData((prevState) => ({ ...prevState, [target.name]: target.value }));
   };
   useEffect(() => {
-    // eslint-disable-next-line no-shadow
-    API.professions.fetchAll().then((data) => setProfessions(data));
-    // eslint-disable-next-line no-shadow
-    API.qualities.fetchAll().then((data) => setQualities(data));
-  },
-  []);
+    API.professions.fetchAll().then((data) => {
+      const professionsList = Object.keys(data).map((professionName) => ({
+        label: data[professionName].name,
+        value: data[professionName]._id
+      }));
+      setProfessions(professionsList);
+    });
+    API.qualities.fetchAll().then((data) => {
+      const qualitiesList = Object.keys(data).map((optionName) => ({
+        label: data[optionName].name,
+        value: data[optionName]._id,
+        color: data[optionName].color
+      }));
+      setQualities(qualitiesList);
+    });
+  }, []);
 
   const validatorConfig = {
     email: {
@@ -109,6 +119,7 @@ const RegisterForm = () => {
         label='Выбери свою профессию'
         options={professions}
         defaultOption='Choose...'
+        name='profession'
         onChange={handleChange}
         value={data.profession}
         error={errors.profession}
@@ -127,6 +138,7 @@ const RegisterForm = () => {
       <MultiSelectField
         onChange={handleChange}
         options={qualities}
+        defaultValue={data.qualities}
         name='qualities'
         label='Выберите ваши качества'
       />

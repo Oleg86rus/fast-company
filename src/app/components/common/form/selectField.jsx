@@ -7,7 +7,8 @@ const SelectField = ({
   onChange,
   defaultOption,
   options,
-  error
+  error,
+  name
 }) => {
   const handleChange = ({target}) => {
     onChange({name: target.name, value: target.value});
@@ -17,36 +18,30 @@ const SelectField = ({
       ? ' is-invalid'
       : '');
   };
-  const optionsArray = !Array.isArray(options) && typeof (options) === 'object'
-    ?
-    Object.keys(options).map(optionName => ({
-      name: options[optionName].name,
-      value: options[optionName]._id
-    }))
+  const optionsArray = !Array.isArray(options) && typeof options === "object"
+    ? Object.values(options)
     : options;
   
   return (
     <div className="mb-4">
-      <label htmlFor="validationCustom04" className="form-label">
+      <label htmlFor={name} className="form-label">
         {label}
       </label>
       <select
         className={getInputClasses()}
-        id="validationCustom04"
+        id={name}
         value={value}
-        name="profession"
+        name={name}
         onChange={handleChange}
       >
         <option disabled value="">{defaultOption}</option>
         {/* eslint-disable-next-line react/jsx-key */}
-        {optionsArray && optionsArray.map((option, index) => (
-          <option
-            key={index}
-            value={option.value}
-          >
-            {option.name}
-          </option>
-        ))}
+        {optionsArray.length > 0 &&
+          optionsArray.map((option) => (
+            <option value={option.value} key={option.value}>
+              {option.label}
+            </option>
+          ))}
         {/* <option value="_id">...</option> */}
       </select>
       {error && <div className="invalid-feedback">
@@ -58,6 +53,7 @@ const SelectField = ({
 SelectField.propTypes = {
   defaultOption: PropTypes.string,
   label: PropTypes.string,
+  name: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
   error: PropTypes.string,

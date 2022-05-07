@@ -29,7 +29,8 @@ module.exports = {
     'react/jsx-filename-extension': [1, { allow: 'as-needed' }],
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
-    'consistent-return': 0
-    // 'no-shadow': 'off'
+    'consistent-return': 0,
+    "no-shadow": 'off',
+    "@typescript-eslint/no-shadow": 'off'
   }
 };

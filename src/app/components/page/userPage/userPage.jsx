@@ -10,7 +10,7 @@ const User = () => {
   const { userId } = params;
   const [user, setUser] = useState();
   useEffect(() => {
-    API.users.getById(userId).then((resolve) => setUser(resolve));
+    API.users.getById(userId).then((data) => setUser(data));
   },
   []);
   const setAllUsers = () => {
