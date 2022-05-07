@@ -4,9 +4,14 @@ export function validator (data, config) {
   function validate(validateMethod, data, config){
     let statusValidate;
     switch (validateMethod) {
-    case 'isRequired':
-      statusValidate = data.trim() === '';
+    case 'isRequired': {
+      if (typeof data === 'boolean'){
+        statusValidate = !data;
+      } else {
+        statusValidate = data.trim() === '';
+      }
       break;
+    }
     case 'isEmail':
       // eslint-disable-next-line no-case-declarations
       const emailRegExp = /^\S+@\S+\.\S+$/g;
