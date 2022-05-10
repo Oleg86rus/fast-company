@@ -30,7 +30,11 @@ module.exports = {
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
     'consistent-return': 0,
-    "no-shadow": 'off',
-    "@typescript-eslint/no-shadow": 'off'
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'off',
+    'no-restricted-syntax': 'off',
+    'guard-for-in': 'off',
+    'no-unused-vars': 'off',
+    'no-new': 'off'
   }
 };
