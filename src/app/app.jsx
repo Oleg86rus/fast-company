@@ -7,6 +7,7 @@ import Main from './components/layouts/main';
 import Login from './components/layouts/login';
 import Users from './components/layouts/users';
 import NotFound from './components/page/not-found';
+import EditUserPage from './components/page/editUserPage/editUserPage';
 
 const App = () => {
   const [users, setUsers] = useState(API.users.fetchAll());
@@ -43,6 +44,7 @@ const App = () => {
               users={Object.values(users)}
             /> 
           </>)} />
+        <Route path='/users/:userId?/edit' component={EditUserPage}/>
         <Route path='/users/:userId?' component={Users}/>
         <Route path='/404' component={NotFound}/>
         <Redirect to='/404'/>
