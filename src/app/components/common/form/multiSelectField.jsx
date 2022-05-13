@@ -9,6 +9,14 @@ const MultiSelectField = ({options, onChange, name, label, defaultValue}) => {
   const handleChange = (value) => {
     onChange( {name: name, value});
   };
+  const defaultValues = () => {
+    console.log(defaultValue);
+    // eslint-disable-next-line array-callback-return
+    defaultValue.map(el=>{
+      console.log(el.name);
+      onChange({name: name, value: el.name});
+    });
+  };
   return (
     <div className="mb-4">
       <label className="form-label">
@@ -17,7 +25,7 @@ const MultiSelectField = ({options, onChange, name, label, defaultValue}) => {
       <Select
         isMulti
         closeMenuOnSelect={false}
-        defaultValue={defaultValue}
+        defaultValue={defaultValues}
         options={optionsArray}
         className="basic-multi-select"
         classNamePrefix="select"
