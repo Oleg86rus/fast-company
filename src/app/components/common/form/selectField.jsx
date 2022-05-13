@@ -11,6 +11,7 @@ const SelectField = ({
   name
 }) => {
   const handleChange = ({target}) => {
+    console.log(target);
     onChange({name: target.name, value: target.value});
   };
   const getInputClasses = () => {
@@ -54,9 +55,10 @@ SelectField.propTypes = {
   defaultOption: PropTypes.string,
   label: PropTypes.string,
   name: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.object,
   onChange: PropTypes.func,
   error: PropTypes.string,
-  options: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+  options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  typeOfPage:PropTypes.string
 };
 export default SelectField;

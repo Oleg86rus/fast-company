@@ -7,6 +7,7 @@ import CheckboxField from '../common/form/checkboxField';
 import { useHistory, useParams } from 'react-router-dom';
 import API from '../../api';
 import Loading from './loading';
+import { validator } from '../../utils/validator';
 
 const EditUserForm = () => {
   const history = useHistory();
@@ -36,23 +37,16 @@ const EditUserForm = () => {
     });
   },
   []);
-  const moveToAllUsers = () => {
-    history.replace(`/users/${userId}`);
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // const isValid = validate();
-    // if (!isValid) return;
-    const { profession, qualities } = data;
-    console.log({
-      ...data,
-      profession: profession,
-      qualities: qualities
+  const handleChange = (target) => {
+    setData((prevState) => {
+      console.log('target: ', target);
+      console.log('prevState: ', prevState);
+      return ({ ...prevState, [target.name]: target });
     });
   };
-  const handleChange = (target) => {
-    setData((prevState) => ({ ...prevState, [target.name]: target.value }));
-  };
+  useEffect(()=>{
+    console.log('data: ', data);
+  }, [data]);
   const validatorConfig = {
     email: {
       isRequired: {
@@ -64,12 +58,59 @@ const EditUserForm = () => {
     }
     
   };
+  const validate = () => {
+    const errors = validator(data,
+      validatorConfig);
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+  
+  useEffect(() => {
+    validate();
+  },
+  [data]);
   const isValid = Object.keys(errors).length === 0;
-
+  
+  const getProfessionById = (id) => {
+    for (const prof of professions) {
+      if (prof.value === id) return { _id: prof.value, name: prof.label };
+    }
+  };
+  
+  const getQualities = (elements) => {
+    const qualitiesArray = [];
+    for (const elem of elements) {
+      for (const quality in qualities) {
+        qualitiesArray.push({
+          _id: qualities[quality].value,
+          name: qualities[quality].label,
+          color: qualities[quality].color
+        });
+      }
+    }
+    return qualitiesArray;
+  };
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const isValid = validate();
+    if (!isValid) return;
+    setData({
+      ...data,
+      profession: getProfessionById(data.profession),
+      qualities: getQualities(data.qualities)
+    });
+    console.log({
+      ...data,
+      profession: getProfessionById(data.profession),
+      qualities: getQualities(data.qualities)
+    });
+    API.users.update(userId, data);
+  };
+  
   if (data) {
-    console.log(data.qualities);
     return (
-      <form>
+      <form onSubmit={handleSubmit}>
         <TextField
           label="Имя"
           name="name"
@@ -92,6 +133,7 @@ const EditUserForm = () => {
           onChange={handleChange}
           value={data.profession}
           error={errors.profession}
+          typeOfPage='target.label'
         />
         <RadioField
           value={data.sex}
