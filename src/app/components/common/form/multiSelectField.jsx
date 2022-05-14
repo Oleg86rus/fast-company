@@ -15,29 +15,26 @@ const MultiSelectField = ({options, onChange, name, label, defaultValue, value, 
       : '');
   };
   return (
-    <>
-      <div className="mb-4">
-        <label className="form-label">
-          {label}
-        </label>
-        <Select
-          isMulti
-          closeMenuOnSelect={false}
-          defaultValue={defaultValue}
-          options={optionsArray}
-          className={getInputClasses()}
-          placeholder='Выберите качества...'
-          classNamePrefix="select"
-          value={value}
-          onChange={handleChange}
-          name={name}
-        />
-
-      </div>
+    <div className="mb-4">
+      <label className="form-label">
+        {label}
+      </label>
+      <Select
+        isMulti
+        closeMenuOnSelect={false}
+        defaultValue={defaultValue}
+        options={optionsArray}
+        className={getInputClasses()}
+        placeholder='Выберите качества...'
+        classNamePrefix="select"
+        value={value}
+        onChange={handleChange}
+        name={name}
+      />
       {error && <div className="invalid-feedback">
         {error}
       </div>}
-    </>
+    </div>
   );
 };
 MultiSelectField.propTypes = {
@@ -47,6 +44,6 @@ MultiSelectField.propTypes = {
   label: PropTypes.string,
   defaultValue: PropTypes.array,
   value: PropTypes.array,
-  error: PropTypes.object
+  error: PropTypes.string
 };
 export default MultiSelectField;

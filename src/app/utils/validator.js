@@ -1,4 +1,5 @@
 export function validator (data, config) {
+  console.log('TYPE : ', typeof data);
   const errors = {};
   function validate(validateMethod, data, config){
     let statusValidate;
@@ -7,7 +8,7 @@ export function validator (data, config) {
       if (typeof data === 'boolean'){
         statusValidate = !data;
       } else if (typeof Array.isArray(data) === 'boolean'){
-        statusValidate = !data;
+        statusValidate = !Object.keys(data).length;
       } else {
         statusValidate = data.trim() === '';
       }
