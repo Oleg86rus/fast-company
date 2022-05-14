@@ -58,6 +58,6 @@ SelectField.propTypes = {
   error: PropTypes.string,
   options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   typeOfPage:PropTypes.string,
-  defaultValue: PropTypes.array
+  defaultValue: PropTypes.object
 };
 export default SelectField;
