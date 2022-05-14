@@ -17,9 +17,9 @@ const EditUserForm = () => {
   const [professions, setProfessions] = useState([]);
   const [qualities, setQualities] = useState([]);
   const [errors, setErrors] = useState({});
-  
+  const [user, setUser] = useState();
+
   useEffect(() => {
-    API.users.getById(userId).then((data) => setData(data));
     API.professions.fetchAll().then((data) => {
       const professionsList = Object.keys(data).map((professionName) => ({
         label: data[professionName].name,
@@ -35,18 +35,33 @@ const EditUserForm = () => {
       }));
       setQualities(qualitiesList);
     });
+    API.users.getById(userId).then((data) => setUser(data));
+
   },
   []);
+  useEffect(()=>{
+    if (user) {
+      const userQualities = Object.keys(user.qualities).map((quality)=>({
+        value: user.qualities[quality]._id,
+        label: user.qualities[quality].name,
+        color: user.qualities[quality].color
+      }));
+      console.log('userQualities: ', userQualities);
+      setData({
+        ...user,
+        qualities: userQualities,
+        licence: false
+      });
+    }
+  }, [user]);
   const handleChange = (target) => {
     setData((prevState) => {
       console.log('target: ', target);
       console.log('prevState: ', prevState);
-      return ({ ...prevState, [target.name]: target });
+      return ({ ...prevState, [target.name]: target.value });
     });
   };
-  useEffect(()=>{
-    console.log('data: ', data);
-  }, [data]);
+
   const validatorConfig = {
     email: {
       isRequired: {
@@ -55,8 +70,17 @@ const EditUserForm = () => {
       isEmail: {
         message: 'Email введен некорректно'
       }
+    },
+    name: {
+      isRequired: {
+        message: 'Имя обязательно для заполнения'
+      }
+    },
+    licence: {
+      isRequired: {
+        message: 'Необходимо подтвердить внесение изменений'
+      }
     }
-    
   };
   const validate = () => {
     const errors = validator(data,
@@ -66,14 +90,20 @@ const EditUserForm = () => {
   };
   
   useEffect(() => {
+    console.log('data: ', data);
+   
     validate();
   },
   [data]);
   const isValid = Object.keys(errors).length === 0;
-  
+
   const getProfessionById = (id) => {
     for (const prof of professions) {
-      if (prof.value === id) return { _id: prof.value, name: prof.label };
+      if (prof.value === id) {
+        console.log('Новая Профессия: ', { _id: prof.value, name: prof.label });
+        console.log('data: ', data);
+        return { _id: prof.value, name: prof.label };
+      }
     }
   };
   
@@ -81,11 +111,13 @@ const EditUserForm = () => {
     const qualitiesArray = [];
     for (const elem of elements) {
       for (const quality in qualities) {
-        qualitiesArray.push({
-          _id: qualities[quality].value,
-          name: qualities[quality].label,
-          color: qualities[quality].color
-        });
+        if (elem.value === qualities[quality].value) {
+          qualitiesArray.push({
+            _id: qualities[quality].value,
+            name: qualities[quality].label,
+            color: qualities[quality].color
+          });
+        }
       }
     }
     return qualitiesArray;
@@ -95,20 +127,34 @@ const EditUserForm = () => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
-    setData({
-      ...data,
-      profession: getProfessionById(data.profession),
-      qualities: getQualities(data.qualities)
-    });
+    const { profession, qualities } = data;
     console.log({
       ...data,
-      profession: getProfessionById(data.profession),
-      qualities: getQualities(data.qualities)
+      profession: getProfessionById(profession),
+      qualities: getQualities(qualities)
     });
-    API.users.update(userId, data);
+    API.users.update(userId, {
+      ...data,
+      profession: getProfessionById(profession),
+      qualities: getQualities(qualities)
+    });
+    history.replace(`/users/${userId}/`);
   };
   
   if (data) {
+    console.log('data: ', data);
+    // useEffect(()=>{
+    //   const userQualities = Object.keys(data.qualities).map((quality)=>({
+    //     value: data.qualities[quality]._id,
+    //     label: data.qualities[quality].name,
+    //     color: data.qualities[quality].color
+    //   }));
+    //   console.log('userQualities: ', userQualities);
+    //   setData({
+    //     ...data,
+    //     qualities: userQualities
+    //   });
+    // },[]);
     return (
       <form onSubmit={handleSubmit}>
         <TextField
@@ -116,11 +162,11 @@ const EditUserForm = () => {
           name="name"
           value={data.name}
           onChange={handleChange}
-          error={errors.email}
+          error={errors.name}
         />
         <TextField
           label="Электронная почта"
-          name="password"
+          name="email"
           value={data.email}
           onChange={handleChange}
           error={errors.email}
@@ -132,8 +178,7 @@ const EditUserForm = () => {
           name="profession"
           onChange={handleChange}
           value={data.profession}
-          error={errors.profession}
-          typeOfPage='target.label'
+          defaultValue={data.profession}
         />
         <RadioField
           value={data.sex}
@@ -149,6 +194,7 @@ const EditUserForm = () => {
         <MultiSelectField
           onChange={handleChange}
           options={qualities}
+          value={data.qualities}
           defaultValue={data.qualities}
           name="qualities"
           label="Выберите ваши качества"

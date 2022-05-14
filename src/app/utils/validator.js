@@ -1,6 +1,5 @@
 export function validator (data, config) {
   const errors = {};
-  // eslint-disable-next-line no-shadow
   function validate(validateMethod, data, config){
     let statusValidate;
     switch (validateMethod) {

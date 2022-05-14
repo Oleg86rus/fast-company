@@ -8,10 +8,10 @@ const SelectField = ({
   defaultOption,
   options,
   error,
-  name
+  name,
+  defaultValue
 }) => {
   const handleChange = ({target}) => {
-    console.log(target);
     onChange({name: target.name, value: target.value});
   };
   const getInputClasses = () => {
@@ -22,7 +22,6 @@ const SelectField = ({
   const optionsArray = !Array.isArray(options) && typeof options === "object"
     ? Object.values(options)
     : options;
-  
   return (
     <div className="mb-4">
       <label htmlFor={name} className="form-label">
@@ -34,16 +33,15 @@ const SelectField = ({
         value={value}
         name={name}
         onChange={handleChange}
+        defaultValue={defaultValue}
       >
         <option disabled value="">{defaultOption}</option>
-        {/* eslint-disable-next-line react/jsx-key */}
         {optionsArray.length > 0 &&
           optionsArray.map((option) => (
             <option value={option.value} key={option.value}>
               {option.label}
             </option>
           ))}
-        {/* <option value="_id">...</option> */}
       </select>
       {error && <div className="invalid-feedback">
         {error}
@@ -59,6 +57,7 @@ SelectField.propTypes = {
   onChange: PropTypes.func,
   error: PropTypes.string,
   options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  typeOfPage:PropTypes.string
+  typeOfPage:PropTypes.string,
+  defaultValue: PropTypes.array
 };
 export default SelectField;
