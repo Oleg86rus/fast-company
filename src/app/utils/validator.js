@@ -6,6 +6,8 @@ export function validator (data, config) {
     case 'isRequired': {
       if (typeof data === 'boolean'){
         statusValidate = !data;
+      } else if (typeof Array.isArray(data) === 'boolean'){
+        statusValidate = !data;
       } else {
         statusValidate = data.trim() === '';
       }
@@ -44,5 +46,6 @@ export function validator (data, config) {
       }
     }
   }
+  console.log('errors: ', errors);
   return errors;
 }

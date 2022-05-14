@@ -46,18 +46,22 @@ const EditUserForm = () => {
         label: user.qualities[quality].name,
         color: user.qualities[quality].color
       }));
-      console.log('userQualities: ', userQualities);
+      const userProfession = {
+        value: user.profession._id,
+        label: user.profession.name
+      };
+      console.log('user: ', user);
+  
       setData({
         ...user,
         qualities: userQualities,
+        profession: user.profession._id,
         licence: false
       });
     }
   }, [user]);
   const handleChange = (target) => {
     setData((prevState) => {
-      console.log('target: ', target);
-      console.log('prevState: ', prevState);
       return ({ ...prevState, [target.name]: target.value });
     });
   };
@@ -80,6 +84,11 @@ const EditUserForm = () => {
       isRequired: {
         message: 'Необходимо подтвердить внесение изменений'
       }
+    },
+    qualities: {
+      isRequired: {
+        message: 'Необходимо выбрать хотя бы одно качество'
+      }
     }
   };
   const validate = () => {
@@ -101,7 +110,6 @@ const EditUserForm = () => {
     for (const prof of professions) {
       if (prof.value === id) {
         console.log('Новая Профессия: ', { _id: prof.value, name: prof.label });
-        console.log('data: ', data);
         return { _id: prof.value, name: prof.label };
       }
     }
@@ -122,39 +130,24 @@ const EditUserForm = () => {
     }
     return qualitiesArray;
   };
-  
+  const backToUser = () => {
+    history.replace(`/users/${userId}/`);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
     const { profession, qualities } = data;
-    console.log({
-      ...data,
-      profession: getProfessionById(profession),
-      qualities: getQualities(qualities)
-    });
     API.users.update(userId, {
       ...data,
       profession: getProfessionById(profession),
       qualities: getQualities(qualities)
     });
-    history.replace(`/users/${userId}/`);
+    backToUser();
   };
   
   if (data) {
-    console.log('data: ', data);
-    // useEffect(()=>{
-    //   const userQualities = Object.keys(data.qualities).map((quality)=>({
-    //     value: data.qualities[quality]._id,
-    //     label: data.qualities[quality].name,
-    //     color: data.qualities[quality].color
-    //   }));
-    //   console.log('userQualities: ', userQualities);
-    //   setData({
-    //     ...data,
-    //     qualities: userQualities
-    //   });
-    // },[]);
+
     return (
       <form onSubmit={handleSubmit}>
         <TextField
@@ -172,13 +165,12 @@ const EditUserForm = () => {
           error={errors.email}
         />
         <SelectField
-          label="Выбери свою профессию"
+          label="Выбери профессию"
           options={professions}
-          defaultOption="Choose..."
+          defaultOption={data.profession._id}
           name="profession"
           onChange={handleChange}
           value={data.profession}
-          defaultValue={data.profession}
         />
         <RadioField
           value={data.sex}
@@ -198,6 +190,7 @@ const EditUserForm = () => {
           defaultValue={data.qualities}
           name="qualities"
           label="Выберите ваши качества"
+          error={errors.qualities}
         />
         <CheckboxField value={data.licence} onChange={handleChange} name="licence"
           error={errors.licence}>
@@ -208,7 +201,13 @@ const EditUserForm = () => {
           type="submit"
           disabled={!isValid}
         >
-        Submit
+          Подтвердить
+        </button>
+        <button
+          className="btn btn-primary w-100 mt-2"
+          onClick={backToUser}
+        >
+          Назад
         </button>
       </form>
     );}

@@ -8,8 +8,7 @@ const SelectField = ({
   defaultOption,
   options,
   error,
-  name,
-  defaultValue
+  name
 }) => {
   const handleChange = ({target}) => {
     onChange({name: target.name, value: target.value});
@@ -20,7 +19,10 @@ const SelectField = ({
       : '');
   };
   const optionsArray = !Array.isArray(options) && typeof options === "object"
-    ? Object.values(options)
+    ? Object.keys(options).map(opt=>({
+      name: options[opt].name,
+      value: options[opt]._id
+    }))
     : options;
   return (
     <div className="mb-4">
@@ -33,9 +35,8 @@ const SelectField = ({
         value={value}
         name={name}
         onChange={handleChange}
-        defaultValue={defaultValue}
       >
-        <option disabled value="">{defaultOption}</option>
+        <option disabled value=''>{defaultOption}</option>
         {optionsArray.length > 0 &&
           optionsArray.map((option) => (
             <option value={option.value} key={option.value}>
@@ -53,11 +54,9 @@ SelectField.propTypes = {
   defaultOption: PropTypes.string,
   label: PropTypes.string,
   name: PropTypes.string,
-  value: PropTypes.object,
+  value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   onChange: PropTypes.func,
   error: PropTypes.string,
-  options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  typeOfPage:PropTypes.string,
-  defaultValue: PropTypes.object
+  options: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 export default SelectField;
