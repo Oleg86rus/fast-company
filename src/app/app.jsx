@@ -44,7 +44,7 @@ const App = () => {
               users={Object.values(users)}
             /> 
           </>)} />
-        <Route path='/users/:userId?/edit' component={EditUserPage}/>
+        <Route path='/users/:userId/edit' component={EditUserPage}/>
         <Route path='/users/:userId?' component={Users}/>
         <Route path='/404' component={NotFound}/>
         <Redirect to='/404'/>
