@@ -10,13 +10,13 @@ const User = () => {
   const { userId } = params;
   const [user, setUser] = useState();
   useEffect(() => {
-    API.users.getById(userId).then((resolve) => setUser(resolve));
+    API.users.getById(userId).then((data) => setUser(data));
   },
   []);
   const setAllUsers = () => {
-    history.replace('/users');
+    history.replace(`/users/${userId}/edit`);
   };
-
+  console.log(user);
   return (
     <>
       {user ? (
@@ -24,13 +24,15 @@ const User = () => {
           <div className="card text-center">
             <h3 className="card-header ">{user.name}</h3>
             <div className="card-body text-center">
+              <h4>Пол: {user.sex}</h4>
+              <h4>E-mail: {user.email}</h4>
               <h4>Профессия: {user.profession.name}</h4>
               <h4>Качества:</h4>
               <QualitiesList qualities={user.qualities}/>
               <h4>Количество встреч: {user.completedMeetings}</h4>
               <h4>Оценка: {user.rate} </h4>
             </div>
-            <div className="card-footer text-center"> <button onClick={setAllUsers} className="btn btn-primary">Все пользователи</button></div>
+            <div className="card-footer text-center"> <button onClick={setAllUsers} className="btn btn-primary">Редактировать данные</button></div>
           </div>
         </>
       ) : <Loading/>}

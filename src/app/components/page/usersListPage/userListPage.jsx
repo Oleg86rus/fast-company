@@ -20,6 +20,7 @@ function UsersListPage () {
   const [usersFound, setUsersFound] = useState('');
   useEffect(() => {
     API.users.fetchAll().then((data) => setUsers(data));
+    API.professions.fetchAll().then((data) => setProfessions(data));
   },
   []);
 
@@ -51,10 +52,6 @@ function UsersListPage () {
   const handleSort = (item) => {
     setSortBy(item);
   };
-  useEffect(() => {
-    API.professions.fetchAll().then((data) => setProfessions(data));
-  },
-  []);
   
   useEffect(() => {
     setCurrentPage(1);

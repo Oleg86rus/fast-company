@@ -7,44 +7,42 @@ const SelectField = ({
   onChange,
   defaultOption,
   options,
-  error
+  error,
+  name
 }) => {
+  const handleChange = ({target}) => {
+    onChange({name: target.name, value: target.value});
+  };
   const getInputClasses = () => {
     return 'form-select' + (error
       ? ' is-invalid'
       : '');
   };
-  const optionsArray = !Array.isArray(options) && typeof (options) === 'object'
-    ?
-    Object.keys(options).map(optionName => ({
-      name: options[optionName].name,
-      value: options[optionName]._id
+  const optionsArray = !Array.isArray(options) && typeof options === "object"
+    ? Object.keys(options).map(opt=>({
+      name: options[opt].name,
+      value: options[opt]._id
     }))
     : options;
-  
   return (
     <div className="mb-4">
-      <label htmlFor="validationCustom04" className="form-label">
+      <label htmlFor={name} className="form-label">
         {label}
       </label>
       <select
         className={getInputClasses()}
-        id="validationCustom04"
+        id={name}
         value={value}
-        name="profession"
-        onChange={onChange}
+        name={name}
+        onChange={handleChange}
       >
-        <option disabled value="">{defaultOption}</option>
-        {/* eslint-disable-next-line react/jsx-key */}
-        {optionsArray && optionsArray.map((option, index) => (
-          <option
-            key={index}
-            value={option.value}
-          >
-            {option.name}
-          </option>
-        ))}
-        {/* <option value="_id">...</option> */}
+        <option disabled value=''>{defaultOption}</option>
+        {optionsArray.length > 0 &&
+          optionsArray.map((option) => (
+            <option value={option.value} key={option.value}>
+              {option.label}
+            </option>
+          ))}
       </select>
       {error && <div className="invalid-feedback">
         {error}
@@ -55,7 +53,8 @@ const SelectField = ({
 SelectField.propTypes = {
   defaultOption: PropTypes.string,
   label: PropTypes.string,
-  value: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   onChange: PropTypes.func,
   error: PropTypes.string,
   options: PropTypes.oneOfType([PropTypes.object, PropTypes.array])

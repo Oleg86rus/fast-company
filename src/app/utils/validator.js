@@ -1,12 +1,19 @@
 export function validator (data, config) {
+  console.log('TYPE : ', typeof data);
   const errors = {};
-  // eslint-disable-next-line no-shadow
   function validate(validateMethod, data, config){
     let statusValidate;
     switch (validateMethod) {
-    case 'isRequired':
-      statusValidate = data.trim() === '';
+    case 'isRequired': {
+      if (typeof data === 'boolean'){
+        statusValidate = !data;
+      } else if (typeof Array.isArray(data) === 'boolean'){
+        statusValidate = data.length === 0;
+      } else {
+        statusValidate = data.trim() === '';
+      }
       break;
+    }
     case 'isEmail':
       // eslint-disable-next-line no-case-declarations
       const emailRegExp = /^\S+@\S+\.\S+$/g;
@@ -40,5 +47,6 @@ export function validator (data, config) {
       }
     }
   }
+  console.log('errors: ', errors);
   return errors;
 }
