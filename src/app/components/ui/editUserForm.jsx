@@ -15,10 +15,10 @@ const EditUserForm = () => {
   const { userId } = params;
   const [data, setData] = useState();
   const [professions, setProfessions] = useState([]);
-  const [qualities, setQualities] = useState([]);
+  const [qualities, setQualities] = useState({});
   const [errors, setErrors] = useState({});
   const [user, setUser] = useState();
-
+  
   useEffect(() => {
     API.professions.fetchAll().then((data) => {
       const professionsList = Object.keys(data).map((professionName) => ({
@@ -36,12 +36,11 @@ const EditUserForm = () => {
       setQualities(qualitiesList);
     });
     API.users.getById(userId).then((data) => setUser(data));
-
   },
   []);
-  useEffect(()=>{
+  useEffect(() => {
     if (user) {
-      const userQualities = Object.keys(user.qualities).map((quality)=>({
+      const userQualities = Object.keys(user.qualities).map((quality) => ({
         value: user.qualities[quality]._id,
         label: user.qualities[quality].name,
         color: user.qualities[quality].color
@@ -50,8 +49,7 @@ const EditUserForm = () => {
         value: user.profession._id,
         label: user.profession.name
       };
-      console.log('user: ', user);
-  
+      
       setData({
         ...user,
         qualities: userQualities,
@@ -59,13 +57,14 @@ const EditUserForm = () => {
         licence: false
       });
     }
-  }, [user]);
+  },
+  [user]);
   const handleChange = (target) => {
     setData((prevState) => {
       return ({ ...prevState, [target.name]: target.value });
     });
   };
-
+  
   const validatorConfig = {
     email: {
       isRequired: {
@@ -99,17 +98,14 @@ const EditUserForm = () => {
   };
   
   useEffect(() => {
-    console.log('data: ', data);
-   
     validate();
   },
   [data]);
   const isValid = Object.keys(errors).length === 0;
-
+  
   const getProfessionById = (id) => {
     for (const prof of professions) {
       if (prof.value === id) {
-        console.log('Новая Профессия: ', { _id: prof.value, name: prof.label });
         return { _id: prof.value, name: prof.label };
       }
     }
@@ -138,79 +134,88 @@ const EditUserForm = () => {
     const isValid = validate();
     if (!isValid) return;
     const { profession, qualities } = data;
-    API.users.update(userId, {
-      ...data,
-      profession: getProfessionById(profession),
-      qualities: getQualities(qualities)
-    });
+    API.users.update(userId,
+      {
+        ...data,
+        profession: getProfessionById(profession),
+        qualities: getQualities(qualities)
+      });
     backToUser();
   };
   
-  if (data) {
-
-    return (
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="Имя"
-          name="name"
-          value={data.name}
-          onChange={handleChange}
-          error={errors.name}
-        />
-        <TextField
-          label="Электронная почта"
-          name="email"
-          value={data.email}
-          onChange={handleChange}
-          error={errors.email}
-        />
-        <SelectField
-          label="Выбери профессию"
-          options={professions}
-          defaultOption={data.profession._id}
-          name="profession"
-          onChange={handleChange}
-          value={data.profession}
-        />
-        <RadioField
-          value={data.sex}
-          onChange={handleChange}
-          options={[
-            { name: 'Male', value: 'male' },
-            { name: 'Female', value: 'female' },
-            { name: 'Other', value: 'other' }
-          ]}
-          name="sex"
-          label="Выберите ваш пол"
-        />
-        <MultiSelectField
-          onChange={handleChange}
-          options={qualities}
-          value={data.qualities}
-          defaultValue={data.qualities}
-          name="qualities"
-          label="Выберите ваши качества"
-          error={errors.qualities}
-        />
-        <CheckboxField value={data.licence} onChange={handleChange} name="licence"
-          error={errors.licence}>
-        Подтвердить изменения
-        </CheckboxField>
-        <button
-          className="btn btn-primary w-100 mx-auto"
-          type="submit"
-          disabled={!isValid}
-        >
-          Подтвердить
-        </button>
-        <button
-          className="btn btn-primary w-100 mt-2"
-          onClick={backToUser}
-        >
-          Назад
-        </button>
-      </form>
-    );}
-  return (<form><Loading/></form>);
+  return (
+    <div className="container mt-5">
+      <div className="row">
+        <div className="col-md-6 offset-md-3 shadow p-4">
+          {data && professions.length > 0 ?
+            <form onSubmit={handleSubmit}>
+              <TextField
+                label="Имя"
+                name="name"
+                value={data.name}
+                onChange={handleChange}
+                error={errors.name}
+              />
+              <TextField
+                label="Электронная почта"
+                name="email"
+                value={data.email}
+                onChange={handleChange}
+                error={errors.email}
+              />
+              <SelectField
+                label="Выбери профессию"
+                options={professions}
+                defaultOption={data.profession._id}
+                name="profession"
+                onChange={handleChange}
+                value={data.profession}
+              />
+              <RadioField
+                value={data.sex}
+                onChange={handleChange}
+                options={[
+                  { name: 'Male', value: 'male' },
+                  { name: 'Female', value: 'female' },
+                  { name: 'Other', value: 'other' }
+                ]}
+                name="sex"
+                label="Выберите ваш пол"
+              />
+              <MultiSelectField
+                onChange={handleChange}
+                options={qualities}
+                value={data.qualities}
+                defaultValue={data.qualities}
+                name="qualities"
+                label="Выберите ваши качества"
+                error={errors.qualities}
+              />
+              <CheckboxField value={data.licence} onChange={handleChange}
+                name="licence"
+                error={errors.licence}>
+            Подтвердить изменения
+              </CheckboxField>
+              <button
+                className="btn btn-primary w-100 mx-auto"
+                type="submit"
+                disabled={!isValid}
+              >
+            Подтвердить
+              </button>
+              <button
+                className="btn btn-primary w-100 mt-2"
+                onClick={backToUser}
+              >
+            Назад
+              </button>
+            </form>
+            : <form><Loading/></form>
+  
+          }
+        </div>
+      </div>
+    </div>
+  );
 };
 export default EditUserForm;
