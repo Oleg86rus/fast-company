@@ -16,7 +16,6 @@ const User = () => {
   const setAllUsers = () => {
     history.replace(`/users/${userId}/edit`);
   };
-  console.log(user);
   return (
     <>
       {user ? (

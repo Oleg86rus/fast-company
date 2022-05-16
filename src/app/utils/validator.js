@@ -1,5 +1,4 @@
 export function validator (data, config) {
-  console.log('TYPE : ', typeof data);
   const errors = {};
   function validate(validateMethod, data, config){
     let statusValidate;
@@ -47,6 +46,5 @@ export function validator (data, config) {
       }
     }
   }
-  console.log('errors: ', errors);
   return errors;
 }
