@@ -35,6 +35,7 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'guard-for-in': 'off',
     'no-unused-vars': 'off',
-    'no-new': 'off'
+    'no-new': 'off',
+    'no-nested-ternary': 'off'
   }
 };

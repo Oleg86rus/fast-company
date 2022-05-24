@@ -27,18 +27,23 @@ const Users = () => {
       })
     );
   };
-  return <>
-    {/* eslint-disable-next-line no-nested-ternary */}
-    {userId
-      ? (
-        edit
-          ? <EditUserPage/>
-          : <UserPage userId={userId}/>
-      )
-      : <UsersListPage onDelete={handleLineDelete}
-        onToggleBookMark={handleToggleBookMark}
-        users={Object.values(users)}/>}
-  </>;
+  return (
+    <>
+      {userId
+        ? (
+          edit
+            ? (
+              <EditUserPage/>
+            )
+            : (
+              <UserPage userId={userId}/>
+            )
+        )
+        : <UsersListPage onDelete={handleLineDelete}
+          onToggleBookMark={handleToggleBookMark}
+          users={Object.values(users)}/>}
+    </>
+  );
 };
 
 export default Users;

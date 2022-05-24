@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../../api';
-import { useHistory, useParams } from 'react-router-dom';
-import QualitiesList from '../../ui/qualities/qualitiesList';
+import { useParams } from 'react-router-dom';
 import Loading from '../../ui/loading';
+import UserCard from '../../ui/userCard';
+import QualitiesCard from '../../ui/qualitiesCard';
+import MeetingsCard from '../../ui/meetingsCard';
+import Comments from '../../ui/comments';
 
 const User = () => {
-  const history = useHistory();
   const params = useParams();
   const { userId } = params;
   const [user, setUser] = useState();
@@ -13,27 +15,22 @@ const User = () => {
     API.users.getById(userId).then((data) => setUser(data));
   },
   []);
-  const setAllUsers = () => {
-    history.replace(`/users/${userId}/edit`);
-  };
+
   return (
     <>
       {user ? (
-        <>
-          <div className="card text-center">
-            <h3 className="card-header ">{user.name}</h3>
-            <div className="card-body text-center">
-              <h4>Пол: {user.sex}</h4>
-              <h4>E-mail: {user.email}</h4>
-              <h4>Профессия: {user.profession.name}</h4>
-              <h4>Качества:</h4>
-              <QualitiesList qualities={user.qualities}/>
-              <h4>Количество встреч: {user.completedMeetings}</h4>
-              <h4>Оценка: {user.rate} </h4>
+        <div className='container'>
+          <div className="row gutters-sm">
+            <div className="col-md-4 mb-3">
+              <UserCard user={user} />
+              <QualitiesCard data={user.qualities} />
+              <MeetingsCard value={user.completedMeetings} />
             </div>
-            <div className="card-footer text-center"> <button onClick={setAllUsers} className="btn btn-primary">Редактировать данные</button></div>
+            <div className="col-md-8">
+              <Comments />
+            </div>
           </div>
-        </>
+        </div>
       ) : <Loading/>}
     </>
   );
