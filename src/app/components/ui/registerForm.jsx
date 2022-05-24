@@ -122,7 +122,7 @@ const RegisterForm = () => {
       qualities: getQualities(qualities)
     });
   };
-  
+  console.log(professions);
   return (
     <form onSubmit={handleSubmit}>
       <TextField

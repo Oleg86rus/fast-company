@@ -4,13 +4,13 @@ import SelectField from '../common/form/selectField';
 import RadioField from '../common/form/radioField';
 import MultiSelectField from '../common/form/multiSelectField';
 import CheckboxField from '../common/form/checkboxField';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import API from '../../api';
 import Loading from './loading';
 import { validator } from '../../utils/validator';
+import BackHistoryButton from '../common/backButton';
 
 const EditUserForm = () => {
-  const history = useHistory();
   const params = useParams();
   const { userId } = params;
   const [data, setData] = useState();
@@ -49,7 +49,7 @@ const EditUserForm = () => {
         value: user.profession._id,
         label: user.profession.name
       };
-      
+        
       setData({
         ...user,
         qualities: userQualities,
@@ -126,9 +126,6 @@ const EditUserForm = () => {
     }
     return qualitiesArray;
   };
-  const backToUser = () => {
-    history.replace(`/users/${userId}/`);
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validate();
@@ -140,14 +137,14 @@ const EditUserForm = () => {
         profession: getProfessionById(profession),
         qualities: getQualities(qualities)
       });
-    backToUser();
   };
-  
   return (
     <div className="container mt-5">
+      <BackHistoryButton/>
       <div className="row">
         <div className="col-md-6 offset-md-3 shadow p-4">
-          {data && professions.length > 0 ?
+          {data && professions.length > 0
+            ?
             <form onSubmit={handleSubmit}>
               <TextField
                 label="Имя"
@@ -194,24 +191,18 @@ const EditUserForm = () => {
               <CheckboxField value={data.licence} onChange={handleChange}
                 name="licence"
                 error={errors.licence}>
-            Подтвердить изменения
+                Подтвердить изменения
               </CheckboxField>
               <button
                 className="btn btn-primary w-100 mx-auto"
                 type="submit"
                 disabled={!isValid}
               >
-            Подтвердить
-              </button>
-              <button
-                className="btn btn-primary w-100 mt-2"
-                onClick={backToUser}
-              >
-            Назад
+                Подтвердить
               </button>
             </form>
             : <form><Loading/></form>
-  
+            
           }
         </div>
       </div>
