@@ -8,7 +8,7 @@ import TextAreaField from '../form/textAreaField';
 const initialData = { userId: '', content: '' };
 
 const AddCommentForm = ({ onSubmit }) => {
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState({  });
   const [users, setUsers] = useState({});
   const [errors, setErrors] = useState({});
   const handleChange = (target) => {

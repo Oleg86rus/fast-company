@@ -4,6 +4,7 @@ import UserPage from '../page/userPage';
 import UsersListPage from '../page/usersListPage';
 import API from '../../api';
 import EditUserPage from '../page/editUserPage/editUserPage';
+import UserProvider from '../../hooks/useUsers';
 
 const Users = () => {
   const params = useParams();
@@ -29,19 +30,21 @@ const Users = () => {
   };
   return (
     <>
-      {userId
-        ? (
-          edit
-            ? (
-              <EditUserPage/>
-            )
-            : (
-              <UserPage userId={userId}/>
-            )
-        )
-        : <UsersListPage onDelete={handleLineDelete}
-          onToggleBookMark={handleToggleBookMark}
-          users={Object.values(users)}/>}
+      <UserProvider>
+        {userId
+          ? (
+            edit
+              ? (
+                <EditUserPage/>
+              )
+              : (
+                <UserPage userId={userId}/>
+              )
+          )
+          : <UsersListPage onDelete={handleLineDelete}
+            onToggleBookMark={handleToggleBookMark}
+            users={Object.values(users)}/>}
+      </UserProvider>
     </>
   );
 };
