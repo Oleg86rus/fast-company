@@ -4,6 +4,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import Main from './components/layouts/main';
 import Login from './components/layouts/login';
 import Users from './components/layouts/users';
+import { ToastContainer } from 'react-toastify';
 
 const App = () => {
  
@@ -16,6 +17,7 @@ const App = () => {
         <Route path='/users/:userId?/:edit?' component={Users}/>
         <Redirect to='/'/>
       </Switch>
+      <ToastContainer/>
     </div>
   );
 };

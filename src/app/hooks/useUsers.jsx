@@ -1,16 +1,46 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import userService from '../service/user.service';
+import { toast } from 'react-toastify';
+import Loading from '../components/ui/loading';
 
 const UserContext = React.createContext();
 
-const useUser = () => {
-  return useContext((UserContext));
+export const useUser = () => {
+  return useContext(UserContext);
 };
 
 const UserProvider = ({children}) => {
+  const [users, setUsers] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  function errorCatcher(error) {
+    const {message} = error.response.data;
+    setError(message);
+    setLoading(false);
+  }
+  async function getUsers() {
+    try {
+      const {content} = await userService.get();
+      setUsers(content);
+      setLoading(false);
+    } catch (error) {
+      errorCatcher(error);
+    }
+  }
+  useEffect(() => {
+    getUsers();
+  }, []);
+  useEffect(() => {
+    if (error !== null) {
+      toast(error);
+      setError(null);
+    }
+  }, [error]);
+  
   return (
-    <UserContext.Provider>
-      {children}
+    <UserContext.Provider value={{ users }}>
+      {!isLoading ? children : <Loading/>}
     </UserContext.Provider>
   );
 };
