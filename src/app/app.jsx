@@ -6,6 +6,7 @@ import Login from './components/layouts/login';
 import Users from './components/layouts/users';
 import { ToastContainer } from 'react-toastify';
 import { ProfessionProvider } from './hooks/useProfession';
+import { QualitiesProvider } from './hooks/useQalities';
 
 const App = () => {
  
@@ -13,13 +14,14 @@ const App = () => {
     <div>
       <NavMenu />
       <ProfessionProvider>
-  
-        <Switch>
-          <Route path='/login' component={Login} />
-          <Route path='/users/:userId?/:edit?' component={Users}/>
-          <Route exact path='/' component={Main} />
-          <Redirect to='/'/>
-        </Switch>
+        <QualitiesProvider>
+          <Switch>
+            <Route path='/login' component={Login} />
+            <Route path='/users/:userId?/:edit?' component={Users}/>
+            <Route exact path='/' component={Main} />
+            <Redirect to='/'/>
+          </Switch>
+        </QualitiesProvider>
       </ProfessionProvider>
       <ToastContainer/>
     </div>

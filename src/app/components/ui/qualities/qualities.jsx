@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useQualities } from '../../../hooks/useQalities';
 
-const Qualities = ({ _id, color, name }) => {
+const Qualities = ({ _id }) => {
+  const { name, color } = useQualities().getQualityById(_id);
   return (
     <>
       <span key={_id} className={'badge m-1 bg-' + color}>
