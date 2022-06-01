@@ -20,7 +20,6 @@ function UsersListPage () {
   const { users } = useUser();
   const [usersFound, setUsersFound] = useState('');
   
-  console.log(users);
   useEffect(() => {
     API.professions.fetchAll().then((data) => setProfessions(data));
   },
