@@ -13,16 +13,18 @@ const App = () => {
   return (
     <div>
       <NavMenu />
-      <ProfessionProvider>
-        <QualitiesProvider>
+      <QualitiesProvider>
+  
+        <ProfessionProvider>
           <Switch>
             <Route path='/login' component={Login} />
             <Route path='/users/:userId?/:edit?' component={Users}/>
             <Route exact path='/' component={Main} />
             <Redirect to='/'/>
           </Switch>
-        </QualitiesProvider>
-      </ProfessionProvider>
+        </ProfessionProvider>
+      </QualitiesProvider>
+  
       <ToastContainer/>
     </div>
   );

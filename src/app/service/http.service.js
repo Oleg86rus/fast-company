@@ -8,24 +8,26 @@ axios.interceptors.request.use(
   function (config) {
     if (configFile.isFireBase) {
       const containSlash = /\/$/gi.test(config.url);
-      // eslint-disable-next-line no-param-reassign
       config.url = (containSlash ? config.url.slice(0, -1) : config.url) + '.json';
     }
     return config;
-  }, function (error) {
+  },
+  function (error) {
     return Promise.reject(error);
   }
 );
 function transformData(data) {
-  return data ? Object.keys(data).map((key)=>({
-    ...data[key]
-  })
-  ): [];
+  return data
+    ? Object.keys(data).map((key) => ({
+      ...data[key]
+    }))
+    : [];
 }
 axios.interceptors.response.use(
   (res)=>{
-    res.data = {content:transformData(res.data)};
-    console.log(res.data);
+    if (configFile.isFireBase) {
+      res.data = { content: transformData(res.data) };
+    }
     return res;
   },
   function (error){
@@ -33,7 +35,6 @@ axios.interceptors.response.use(
       error.response.status >= 400 &&
       error.response.status < 500;
     if (!expectedErrors) {
-      console.log(error);
       toast.error('Something was wrong. Try it later');
     }
     return Promise.reject(error);
