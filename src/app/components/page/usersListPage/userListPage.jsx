@@ -9,6 +9,7 @@ import SearchStatus from '../../ui/searchStatus';
 import UserTable from '../../ui/usersTable';
 import Loading from '../../ui/loading';
 import SearchUsers from '../../ui/searchUsers';
+import { useUser } from '../../../hooks/useUsers';
 
 function UsersListPage () {
   const pageSize = 8;
@@ -16,16 +17,17 @@ function UsersListPage () {
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' });
-  const [users, setUsers] = useState();
+  const { users } = useUser();
   const [usersFound, setUsersFound] = useState('');
+  
   useEffect(() => {
-    API.users.fetchAll().then((data) => setUsers(data));
     API.professions.fetchAll().then((data) => setProfessions(data));
   },
   []);
 
   const handleLineDelete = (id) => {
-    setUsers(users.filter((user) => user._id !== id));
+    // setUsers(users.filter((user) => user._id !== id));
+    console.log(id);
   };
   
   const handleLineFindUser = (e) => {
@@ -34,14 +36,21 @@ function UsersListPage () {
   };
   
   const handleToggleBookMark = (id) => {
-    setUsers(
-      users.map((user) => {
-        if (user._id === id) {
-          return { ...user, bookmark: !user.bookmark };
-        }
-        return user;
-      })
-    );
+    const newArray = users.map((user) => {
+      if (user._id === id) {
+        return { ...user, bookmark: !user.bookmark };
+      }
+      return user;
+    });
+    // setUsers(
+    //   users.map((user) => {
+    //     if (user._id === id) {
+    //       return { ...user, bookmark: !user.bookmark };
+    //     }
+    //     return user;
+    //   })
+    // );
+    console.log(newArray);
   };
   const handleProfessionSelect = (item) => {
     setSelectedProf(item);
