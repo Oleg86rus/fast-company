@@ -36,6 +36,8 @@ module.exports = {
     'guard-for-in': 'off',
     'no-unused-vars': 'off',
     'no-new': 'off',
-    'no-nested-ternary': 'off'
+    'no-nested-ternary': 'off',
+    'no-param-reassign': 'off',
+    'no-await-in-loop': 'off'
   }
 };

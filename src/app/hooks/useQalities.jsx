@@ -12,36 +12,37 @@ export const QualitiesProvider = ({children}) => {
   const [qualitiesList, setQualities] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  function getQualityById(id) {
+    return qualitiesList.find((p)=>p._id===id);
+  }
+
+  useEffect(() => {
+    const getQualitiesList = async () => {
+      try {
+        const { content } = await qualityService.get();
+        setQualities(content);
+        setIsLoading(false);
+      } catch (error) {
+        // eslint-disable-next-line no-use-before-define
+        errorCather(error);
+      }
+    };
+    getQualitiesList();
+  }, []);
   function errorCather (error) {
     const { message } = error.response.data;
     setError(message);
   }
-  
-  function getQualityById(id) {
-    return qualitiesList.find((p)=>p._id===id);
-  }
-  const getQualitiesList = async () => {
-    try {
-      const { content } = await qualityService.get();
-      setQualities(content);
-      setIsLoading(false);
-    } catch (error) {
-      errorCather(error);
-    }
-  };
-  useEffect(() => {
-    getQualitiesList();
-  }, []);
-
   useEffect(()=>{
-    if (error !== 0) {
+    if (error !== null) {
       toast(error);
       setError(null);
     }
   }, [error]);
   return (
-    <QualitiesContext.Provider value={{isLoading, qualitiesList, getQualityById}}>
-      {!isLoading ? children : <p>Loading ...</p>}
+    <QualitiesContext.Provider value={{isLoading, getQualityById}}>
+      {children}
     </QualitiesContext.Provider>
   );
 };

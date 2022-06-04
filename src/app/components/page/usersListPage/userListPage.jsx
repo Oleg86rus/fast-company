@@ -42,15 +42,6 @@ function UsersListPage () {
       }
       return user;
     });
-    // setUsers(
-    //   users.map((user) => {
-    //     if (user._id === id) {
-    //       return { ...user, bookmark: !user.bookmark };
-    //     }
-    //     return user;
-    //   })
-    // );
-    console.log(newArray);
   };
   const handleProfessionSelect = (item) => {
     setSelectedProf(item);

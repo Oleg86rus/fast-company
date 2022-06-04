@@ -27,9 +27,7 @@ const UserProvider = ({children}) => {
       errorCatcher(error);
     }
   }
-  useEffect(() => {
-    getUsers();
-  }, []);
+  useEffect(() => { getUsers(); }, []);
   useEffect(() => {
     if (error !== null) {
       toast(error);
