@@ -9,12 +9,12 @@ export const useQualities = () => {
   return useContext(QualitiesContext);
 };
 export const QualitiesProvider = ({children}) => {
-  const [qualitiesList, setQualities] = useState([]);
+  const [qualities, setQualities] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   function getQualityById(id) {
-    return qualitiesList.find((p)=>p._id===id);
+    return qualities.find((p)=>p._id===id);
   }
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export const QualitiesProvider = ({children}) => {
     }
   }, [error]);
   return (
-    <QualitiesContext.Provider value={{isLoading, getQualityById}}>
+    <QualitiesContext.Provider value={{qualities, isLoading, getQualityById}}>
       {children}
     </QualitiesContext.Provider>
   );
