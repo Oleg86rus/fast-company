@@ -7,6 +7,7 @@ import MultiSelectField from '../common/form/multiSelectField';
 import CheckboxField from '../common/form/checkboxField';
 import { useQualities } from '../../hooks/useQalities';
 import { useProfessions } from '../../hooks/useProfession';
+import { useAuth } from '../../hooks/useAuth';
 
 const RegisterForm = () => {
   const [data, setData] = useState({
@@ -25,6 +26,7 @@ const RegisterForm = () => {
   };
   const qualitiesList = qualities.map(q=>({label: q.name, value: q._id}));
   const professionList = professions.map(p=>({label: p.name, value: p._id}));
+  const {singUp} = useAuth();
   const validatorConfig = {
     email: {
       isRequired: {
@@ -81,6 +83,7 @@ const RegisterForm = () => {
     const { profession, qualities } = data;
     const newData = {...data, qualities: data.qualities.map(q=>q.value)};
     console.log('newData: ', newData);
+    singUp(newData);
   };
   return (
     <form onSubmit={handleSubmit}>
