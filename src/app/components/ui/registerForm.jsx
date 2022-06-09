@@ -76,14 +76,17 @@ const RegisterForm = () => {
   },
   [data]);
   const isValid = Object.keys(errors).length === 0;
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
     const { profession, qualities } = data;
     const newData = {...data, qualities: data.qualities.map(q=>q.value)};
-    console.log('newData: ', newData);
-    singUp(newData);
+    try {
+      await singUp(newData);
+    } catch (error) {
+      setErrors(error);
+    }
   };
   return (
     <form onSubmit={handleSubmit}>
