@@ -34,8 +34,7 @@ const AuthProvider = ({children}) => {
     }
   }
   async function singUp ({email, password, ...rest}) {
-    const key = 'AIzaSyBY-UrhguLSGx177HOlXQ-2eN-SUXP4lHA';
-    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`;
+    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`;
     try {
       const {data} = await httpAuth.post(url, {email, password, returnSecureToken: true});
       setTokens(data);
