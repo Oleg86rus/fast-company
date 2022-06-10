@@ -27,7 +27,8 @@ const AuthProvider = ({children}) => {
       errorCatcher(error);
     }
   }
-  async function singUp ({email, password, ...rest}) {
+
+  async function signUp ({email, password, ...rest}) {
     const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`;
     try {
       const {data} = await httpAuth.post(url, {email, password, returnSecureToken: true});
@@ -44,6 +45,29 @@ const AuthProvider = ({children}) => {
       }
     }
   }
+  async function signIn ({email, password}) {
+    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_KEY}`;
+    try {
+      const {data} = await httpAuth.post(url, {email, password, returnSecureToken: true});
+      setTokens(data);
+    } catch (error) {
+      const {code, message} = error.response.data.error;
+      if (code === 400) {
+        if (message === 'EMAIL_NOT_FOUND') {
+          const errorObject = {email:'Пользователь с таким Email не найден'};
+          throw errorObject;
+        }
+        if (message === 'INVALID_PASSWORD') {
+          const errorObject = {password:'Неверный пароль'};
+          throw errorObject;
+        }
+        if (message === 'TOO_MANY_ATTEMPTS_TRY_LATER : Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.') {
+          const errorObject = {email:'Слишком много попыток, повторите позднее'};
+          throw errorObject;
+        }
+      }
+    }
+  }
 
   useEffect(() => {
     if (error !== null) {
@@ -52,7 +76,7 @@ const AuthProvider = ({children}) => {
     }
   }, [error]);
   return (
-    <AuthContext.Provider value={{ singUp, currentUser }}>
+    <AuthContext.Provider value={{ singUp: signUp, currentUser, singIn: signIn }}>
       {children}
     </AuthContext.Provider>
   );

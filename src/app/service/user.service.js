@@ -11,6 +11,9 @@ const userService = {
     const {data} = await httpService.put(userEndPoint+payload._id, payload);
     return data;
   }
+  // logIn: async (log) => {
+  //   const {data} = await httpService.get(userEndPoint+log._id, log);
+  // }
 };
 
 export default userService;

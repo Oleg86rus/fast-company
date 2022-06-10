@@ -83,7 +83,7 @@ const RegisterForm = () => {
     const isValid = validate();
     if (!isValid) return;
     const { profession, qualities } = data;
-    const newData = {...data, qualities: data.qualities.map(q=>q.value)};
+    const newData = {...data, qualities: qualities.map(q=>q.value)};
     try {
       await singUp(newData);
       history.push('/');
