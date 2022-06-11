@@ -31,7 +31,8 @@ function UsersListPage () {
   };
   
   const handleLineFindUser = (e) => {
-    setSelectedProf();
+    console.log('e: ', e);
+    setSelectedProf(undefined);
     setUsersFound(e.target.value);
   };
   
@@ -44,6 +45,7 @@ function UsersListPage () {
     });
   };
   const handleProfessionSelect = (item) => {
+    if (usersFound !== "") setUsersFound("");
     setSelectedProf(item);
   };
   const handlePageChange = (pageIndex) => {
@@ -56,20 +58,19 @@ function UsersListPage () {
   useEffect(() => {
     setCurrentPage(1);
   },
-  [selectedProf]);
+  [selectedProf, usersFound]);
 
   if (users) {
-    const filteredUserList = users.filter(user => {
+    console.log(users);
+    const filteredUserList = usersFound ? users.filter(user => {
       return user.name.toLowerCase().includes(usersFound.toLowerCase());
-    });
-    const filteredUsers = selectedProf
+    }) : selectedProf
       ? users.filter(
         (user) =>
           JSON.stringify(user.profession) === JSON.stringify(selectedProf)
-      )
-      : filteredUserList;
-    const count = filteredUsers.length;
-    const sortedUsers = _.orderBy(filteredUsers,
+      ) : users;
+    const count = filteredUserList.length;
+    const sortedUsers = _.orderBy(filteredUserList,
       [sortBy.path],
       [sortBy.order]);
     const userCrop = paginate(sortedUsers,
