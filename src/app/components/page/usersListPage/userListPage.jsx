@@ -61,7 +61,6 @@ function UsersListPage () {
   [selectedProf, usersFound]);
 
   if (users) {
-    console.log(users);
     const filteredUserList = usersFound ? users.filter(user => {
       return user.name.toLowerCase().includes(usersFound.toLowerCase());
     }) : selectedProf
