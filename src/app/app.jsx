@@ -17,7 +17,6 @@ const App = () => {
       <AuthProvider>
         <NavMenu />
         <QualitiesProvider>
-  
           <ProfessionProvider>
             <Switch>
               <Route path='/login' component={Login} />

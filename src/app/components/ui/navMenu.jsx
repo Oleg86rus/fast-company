@@ -18,7 +18,6 @@ const NavMenu = () => {
         </ul>
         <div className="d-flex">
           {currentUser ? <NavProfile/> : <Link exact className='nav-link' to='/login'>Login</Link>}
-          
         </div>
       </div>
     </nav>

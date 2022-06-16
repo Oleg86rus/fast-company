@@ -4,6 +4,7 @@ import axios from 'axios';
 import userService from '../service/user.service';
 import { toast } from 'react-toastify';
 import localStorageService, { setTokens } from '../service/localStorage.service';
+import Loading from '../components/ui/loading';
 
 export const httpAuth = axios.create({
   baseURL: 'https://identitytoolkit.googleapis.com/v1/',
@@ -20,17 +21,20 @@ export const useAuth = () => {
 const AuthProvider = ({children}) => {
   const [currentUser, setUser] = useState();
   const [error, setError] = useState(null);
+  const [isLoading, setLoading] = useState(true);
 
   function errorCatcher(error) {
     const {message} = error.response.data;
     setError(message);
-  }
+  };
   async function getUserData() {
     try {
       const {content} = await userService.getCurrentUser();
       setUser(content);
     } catch (error) {
       errorCatcher(error);
+    } finally {
+      setLoading(false);
     }
   }
   async function createUser(data) {
@@ -89,11 +93,13 @@ const AuthProvider = ({children}) => {
   useEffect(() => {
     if (localStorageService.getAccessToken()) {
       getUserData();
+    } else {
+      setLoading(false);
     }
   }, []);
   return (
     <AuthContext.Provider value={{ singUp: signUp, currentUser, singIn: signIn }}>
-      {children}
+      {!isLoading ? children : <Loading/>}
     </AuthContext.Provider>
   );
 };
