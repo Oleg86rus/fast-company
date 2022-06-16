@@ -17,10 +17,6 @@ export const CommentsProvider = ({children}) => {
   const [isLoading, setLoading] = useState(true);
   const [comments, setComments] = useState([]);
   const [error, setError] = useState(null);
-  useEffect(()=> {
-    setComments(null);
-    setLoading(false);
-  }, []);
   useEffect(() => {
     if (error !== null) {
       toast(error);
@@ -48,7 +44,20 @@ export const CommentsProvider = ({children}) => {
     console.log(comment);
   
   }
-  
+  async function getComments() {
+    try {
+      const {content} = await commentService.getComments(userId);
+      console.log(content);
+      setComments(content);
+    } catch (error) {
+      errorCatcher(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  useEffect(()=> {
+    getComments();
+  }, []);
   return <CommentContext.Provider value={{comments, createComment, isLoading}}>
     {children}
   </CommentContext.Provider>;
