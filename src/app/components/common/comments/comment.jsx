@@ -2,6 +2,7 @@ import React from 'react';
 import { displayDate } from '../../../utils/displayDate';
 import PropTypes from 'prop-types';
 import { useUser } from '../../../hooks/useUsers';
+import { useAuth } from '../../../hooks/useAuth';
 
 const Comment = ({
   content,
@@ -11,6 +12,7 @@ const Comment = ({
   onRemove
 }) => {
   const {getUserById} = useUser();
+  const {currentUser} = useAuth();
   const user = getUserById(userId);
 
   return (
@@ -35,12 +37,13 @@ const Comment = ({
                           - {displayDate(created)}
                     </span>
                   </p>
-                  <button
+                  {currentUser._id === userId && (<button
                     className="btn btn-sm text-primary d-flex align-items-center"
                     onClick={() => onRemove(id)}
                   >
                     <i className="bi bi-x-lg"/>
-                  </button>
+                  </button>)}
+
                 </div>
                 <p className="small mb-0">{content}</p>
               </div>
