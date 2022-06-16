@@ -55,7 +55,17 @@ export const CommentsProvider = ({children}) => {
   useEffect(()=> {
     getComments();
   }, [userId]);
-  return <CommentContext.Provider value={{comments, createComment, isLoading}}>
+  async function removeComment(id) {
+    try {
+      const {content} = await commentService.removeComment(id);
+      if (content === null) {
+        setComments(prevState => prevState.filter(c=>c._id !== id));
+      }
+    } catch (e) {
+      errorCatcher(error);
+    }
+  }
+  return <CommentContext.Provider value={{comments, createComment, isLoading, removeComment}}>
     {children}
   </CommentContext.Provider>;
 };
