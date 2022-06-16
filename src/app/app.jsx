@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import { ProfessionProvider } from './hooks/useProfession';
 import { QualitiesProvider } from './hooks/useQalities';
 import AuthProvider from './hooks/useAuth';
+import ProtectedRoute from './components/common/protectedRoute';
 
 const App = () => {
  
@@ -20,7 +21,7 @@ const App = () => {
           <ProfessionProvider>
             <Switch>
               <Route path='/login' component={Login} />
-              <Route path='/users/:userId?/:edit?' component={Users}/>
+              <ProtectedRoute path='/users/:userId?/:edit?' component={Users}/>
               <Route exact path='/' component={Main} />
               <Redirect to='/'/>
             </Switch>
