@@ -10,10 +10,12 @@ import Loading from '../../ui/loading';
 import SearchUsers from '../../ui/searchUsers';
 import { useUser } from '../../../hooks/useUsers';
 import { useProfessions } from '../../../hooks/useProfession';
+import { useAuth } from '../../../hooks/useAuth';
 
 function UsersListPage () {
   const { users } = useUser();
   const {isLoading: professionsLoading, professions} = useProfessions();
+  const {currentUser} = useAuth();
   const pageSize = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProf, setSelectedProf] = useState();
@@ -53,15 +55,18 @@ function UsersListPage () {
     setCurrentPage(1);
   },
   [selectedProf, usersFound]);
-
-  if (users) {
-    const filteredUserList = usersFound ? users.filter(user => {
+  function filterUsers(data) {
+    const filteredUserList = usersFound ? data.filter(user => {
       return user.name.toLowerCase().includes(usersFound.toLowerCase());
     }) : selectedProf
-      ? users.filter(
+      ? data.filter(
         (user) =>
           JSON.stringify(user.profession) === JSON.stringify(selectedProf)
-      ) : users;
+      ) : data;
+    return filteredUserList.filter(u=>u._id !== currentUser._id);
+  }
+  if (users) {
+    const filteredUserList = filterUsers(users);
     const count = filteredUserList.length;
     const sortedUsers = _.orderBy(filteredUserList,
       [sortBy.path],
