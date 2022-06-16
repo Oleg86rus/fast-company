@@ -45,10 +45,9 @@ const LoginForm = () => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
-    console.log(data);
     try {
       await singIn(data);
-      history.push('/');
+      history.push(history.location.state ? history.location.state.from.pathname : '/');
     } catch (error) {
       // setErrors(error);
       setEnterError(error.message);
