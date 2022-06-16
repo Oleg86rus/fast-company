@@ -4,34 +4,28 @@ import _ from 'lodash';
 import Pagination from '../../common/pagination';
 import paginate from '../../../utils/paginate';
 import GroupList from '../../common/groupList';
-import API from '../../../api';
 import SearchStatus from '../../ui/searchStatus';
 import UserTable from '../../ui/usersTable';
 import Loading from '../../ui/loading';
 import SearchUsers from '../../ui/searchUsers';
 import { useUser } from '../../../hooks/useUsers';
+import { useProfessions } from '../../../hooks/useProfession';
 
 function UsersListPage () {
+  const { users } = useUser();
+  const {isLoading: professionsLoading, professions} = useProfessions();
   const pageSize = 8;
   const [currentPage, setCurrentPage] = useState(1);
-  const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' });
-  const { users } = useUser();
   const [usersFound, setUsersFound] = useState('');
   
-  useEffect(() => {
-    API.professions.fetchAll().then((data) => setProfessions(data));
-  },
-  []);
-
   const handleLineDelete = (id) => {
     // setUsers(users.filter((user) => user._id !== id));
-    console.log(id);
+    // console.log(id);
   };
   
   const handleLineFindUser = (e) => {
-    console.log('e: ', e);
     setSelectedProf(undefined);
     setUsersFound(e.target.value);
   };
@@ -82,7 +76,7 @@ function UsersListPage () {
     return (
       <>
         <div className="d-flex">
-          {professions && (
+          {professions && !professionsLoading && (
             <div className="d-flex flex-column flex-shrink-0 p-3">
               <GroupList
                 items={professions}
