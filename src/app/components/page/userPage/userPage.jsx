@@ -6,6 +6,7 @@ import MeetingsCard from '../../ui/meetingsCard';
 import Comments from '../../ui/comments';
 import { useUser } from '../../../hooks/useUsers';
 import PropTypes from 'prop-types';
+import { CommentsProvider } from '../../../hooks/useComment';
 
 const User = ({ userId }) => {
   const {getUserById} = useUser();
@@ -21,7 +22,9 @@ const User = ({ userId }) => {
               <MeetingsCard value={user.completedMeetings} />
             </div>
             <div className="col-md-8">
-              <Comments />
+              <CommentsProvider>
+                <Comments />
+              </CommentsProvider>
             </div>
           </div>
         </div>

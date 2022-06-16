@@ -39,7 +39,9 @@ export const ProfessionProvider = ({children}) => {
       setError(null);
     }
   }, [error]);
-  return <ProfessionContext.Provider value={{isLoading, professions, getProfession}}>{children}</ProfessionContext.Provider>;
+  return <ProfessionContext.Provider value={{isLoading, professions, getProfession}}>
+    {children}
+  </ProfessionContext.Provider>;
 };
 ProfessionProvider.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
