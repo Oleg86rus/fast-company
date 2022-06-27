@@ -9,14 +9,17 @@ import { validator } from '../../utils/validator';
 import BackHistoryButton from '../common/backButton';
 import { useAuth } from '../../hooks/useAuth';
 import { useProfessions } from '../../hooks/useProfession';
-import { useQualities } from '../../hooks/useQalities';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getQualities, getQualitiesLoadingStatus } from '../../store/qualities';
 
 const EditUserForm = () => {
   const history = useHistory();
   const {currentUser, updateUser} = useAuth();
   const {isLoading: professionLoading, professions} = useProfessions();
-  const {qualities, isLoading: qualityesLoading} = useQualities();
+  const qualities = useSelector(getQualities());
+  const qualityesLoading = useSelector(getQualitiesLoadingStatus());
+  
   const qualitiesList = qualities.map(q=>({label: q.name, value: q._id}));
   const professionList = professions.map(p=>({label: p.name, value: p._id}));
   const [errors, setErrors] = useState({});
