@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import NavMenu from './components/ui/navMenu';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Main from './components/layouts/main';
@@ -10,9 +10,14 @@ import { QualitiesProvider } from './hooks/useQalities';
 import AuthProvider from './hooks/useAuth';
 import ProtectedRoute from './components/common/protectedRoute';
 import LogOut from './components/layouts/logOut';
+import { useDispatch } from 'react-redux';
+import { loadQualitiesList } from './store/qualities';
 
 const App = () => {
- 
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(loadQualitiesList());
+  });
   return (
     <div>
       <AuthProvider>
