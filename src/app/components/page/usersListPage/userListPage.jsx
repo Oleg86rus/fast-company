@@ -15,9 +15,10 @@ import {
   getProfessionsLoadingStatus
 } from '../../../store/professions';
 import { useSelector } from 'react-redux';
+import { getUsersList } from '../../../store/users';
 
 function UsersListPage () {
-  const { users } = useUser();
+  const users = useSelector(getUsersList());
   const professionsLoading = useSelector(getProfessionsLoadingStatus());
   const professions = useSelector(getProfessions());
   const {currentUser} = useAuth();
