@@ -9,23 +9,23 @@ import UserTable from '../../ui/usersTable';
 import Loading from '../../ui/loading';
 import SearchUsers from '../../ui/searchUsers';
 import { useUser } from '../../../hooks/useUsers';
-import { useProfessions } from '../../../hooks/useProfession';
 import { useAuth } from '../../../hooks/useAuth';
+import {
+  getProfessions,
+  getProfessionsLoadingStatus
+} from '../../../store/professions';
+import { useSelector } from 'react-redux';
 
 function UsersListPage () {
   const { users } = useUser();
-  const {isLoading: professionsLoading, professions} = useProfessions();
+  const professionsLoading = useSelector(getProfessionsLoadingStatus());
+  const professions = useSelector(getProfessions());
   const {currentUser} = useAuth();
   const pageSize = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' });
   const [usersFound, setUsersFound] = useState('');
-  
-  const handleLineDelete = (id) => {
-    // setUsers(users.filter((user) => user._id !== id));
-    // console.log(id);
-  };
   
   const handleLineFindUser = (e) => {
     setSelectedProf(undefined);
@@ -103,7 +103,6 @@ function UsersListPage () {
                 users={userCrop}
                 selectedSort={sortBy}
                 onSort={handleSort}
-                onDelete={handleLineDelete}
                 onToggleBookMark={handleToggleBookMark}
               />
             )}
