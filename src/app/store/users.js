@@ -55,6 +55,19 @@ const authRequested = createAction("users/authRequested");
 const userCreateRequested = createAction("user/userCreateRequested");
 const createUserFailed = createAction("user/userCreateRequested");
 
+export const login = ({ payload, redirect }) => async (dispatch) => {
+  const {email, password} = payload;
+  dispatch(authRequested());
+  try {
+    const data = await authService.login({email, password});
+    dispatch(authRequestSuccess({ userId: data.localId }));
+    localStorageService.setTokens(data);
+    history.push(redirect);
+  } catch (error) {
+    dispatch(authRequestFailed(error.message));
+  }
+};
+
 export const sighUp = ({email, password, ...rest}) => async (dispatch) => {
   dispatch(authRequested());
   try {
