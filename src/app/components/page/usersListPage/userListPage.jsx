@@ -8,20 +8,18 @@ import SearchStatus from '../../ui/searchStatus';
 import UserTable from '../../ui/usersTable';
 import Loading from '../../ui/loading';
 import SearchUsers from '../../ui/searchUsers';
-import { useUser } from '../../../hooks/useUsers';
-import { useAuth } from '../../../hooks/useAuth';
 import {
   getProfessions,
   getProfessionsLoadingStatus
 } from '../../../store/professions';
 import { useSelector } from 'react-redux';
-import { getUsersList } from '../../../store/users';
+import { getCurrentUserId, getUsersList } from '../../../store/users';
 
 function UsersListPage () {
   const users = useSelector(getUsersList());
   const professionsLoading = useSelector(getProfessionsLoadingStatus());
   const professions = useSelector(getProfessions());
-  const {currentUser} = useAuth();
+  const currentUserId = useSelector(getCurrentUserId());
   const pageSize = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProf, setSelectedProf] = useState();
@@ -64,7 +62,7 @@ function UsersListPage () {
         (user) =>
           JSON.stringify(user.profession) === JSON.stringify(selectedProf)
       ) : data;
-    return filteredUserList.filter(u=>u._id !== currentUser._id);
+    return filteredUserList.filter(u=>u._id !== currentUserId._id);
   }
   if (users) {
     const filteredUserList = filterUsers(users);
