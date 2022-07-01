@@ -1,5 +1,4 @@
 import React from 'react';
-import { useAuth } from '../../hooks/useAuth';
 import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getIsLoggedIn } from '../../store/users';
