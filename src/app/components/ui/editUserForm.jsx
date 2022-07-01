@@ -15,10 +15,12 @@ import {
   getProfessions,
   getProfessionsLoadingStatus
 } from '../../store/professions';
+import { getCurrentUserData } from '../../store/users';
 
 const EditUserForm = () => {
   const history = useHistory();
-  const {currentUser, updateUser} = useAuth();
+  const {updateUser} = useAuth();
+  const currentUser = useSelector(getCurrentUserData());
   const professionLoading = useSelector(getProfessionsLoadingStatus());
   const professions = useSelector(getProfessions());
   const qualities = useSelector(getQualities());
