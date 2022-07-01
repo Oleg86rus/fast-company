@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import userService from '../service/user.service';
 import { toast } from 'react-toastify';
 import Loading from '../components/ui/loading';
+import { useSelector } from 'react-redux';
+import { getCurrentUserData, getCurrentUserId } from '../store/users';
 
 const UserContext = React.createContext();
 
-export const useUser = () => {
-  return useContext(UserContext);
-};
-
 const UserProvider = ({children}) => {
+  const currentUserId = useSelector(getCurrentUserId());
+  const currentUser = useSelector(getCurrentUserData());
   const [users, setUsers] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,6 +27,16 @@ const UserProvider = ({children}) => {
       errorCatcher(error);
     }
   }
+  useEffect(() => {
+    if (!isLoading) {
+      const newUsers = [...users];
+      const indexUser = newUsers.findIndex(
+        (u) => u._id === currentUserId
+      );
+      newUsers[indexUser] = currentUser;
+      setUsers(newUsers);
+    }
+  }, [currentUser]);
   useEffect(() => { getUsers(); }, []);
   useEffect(() => {
     if (error !== null) {

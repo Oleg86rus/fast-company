@@ -15,12 +15,13 @@ import {
   getProfessions,
   getProfessionsLoadingStatus
 } from '../../store/professions';
-import { getCurrentUserData } from '../../store/users';
+import { getCurrentUserData, getCurrentUserId } from '../../store/users';
 
 const EditUserForm = () => {
   const history = useHistory();
   const {updateUser} = useAuth();
   const currentUser = useSelector(getCurrentUserData());
+  const currentUserId = useSelector(getCurrentUserId());
   const professionLoading = useSelector(getProfessionsLoadingStatus());
   const professions = useSelector(getProfessions());
   const qualities = useSelector(getQualities());
@@ -51,15 +52,19 @@ const EditUserForm = () => {
     return result;
   };
   useEffect(()=> {
-    if (!professionLoading && !qualityesLoading) {
+    if (!professionLoading && !qualityesLoading && currentUser && !data) {
       setData({
         ...currentUser,
         qualities: transformData(currentUser.qualities)
       });
+    }
+  }, [professionLoading, qualityesLoading, currentUser, data]);
+  useEffect(() => {
+    if (data && isLoading) {
       setLoading(false);
     }
-  }, [professionLoading, qualityesLoading]);
- 
+  }, [data]);
+  
   const handleChange = (target) => {
     setData((prevState) => {
       return ({ ...prevState, [target.name]: target.value });
@@ -111,7 +116,7 @@ const EditUserForm = () => {
       ...data,
       qualities: data.qualities.map(q=>q.value)
     });
-    await history.push(`/users/${currentUser._id}`);
+    await history.push(`/users/${currentUserId}`);
   };
   return (
     <div className="container mt-5">
