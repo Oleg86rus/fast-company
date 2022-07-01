@@ -5,14 +5,13 @@ import SelectField from '../common/form/selectField';
 import RadioField from '../common/form/radioField';
 import MultiSelectField from '../common/form/multiSelectField';
 import CheckboxField from '../common/form/checkboxField';
-import { useProfessions } from '../../hooks/useProfession';
-import { useAuth } from '../../hooks/useAuth';
-import { useHistory } from 'react-router-dom';
 import { getQualities } from '../../store/qualities';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProfessions } from '../../store/professions';
+import { sighUp } from '../../store/users';
 
 const RegisterForm = () => {
-  const history = useHistory();
+  const dispatch = useDispatch();
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -24,13 +23,13 @@ const RegisterForm = () => {
   });
   const qualities = useSelector(getQualities());
   const [errors, setErrors] = useState({});
-  const { professions } = useProfessions();
+  const professions = useSelector(getProfessions());
+  
   const handleChange = (target) => {
     setData((prevState) => ({ ...prevState, [target.name]: target.value }));
   };
   const qualitiesList = qualities.map(q=>({label: q.name, value: q._id}));
   const professionList = professions.map(p=>({label: p.name, value: p._id}));
-  const {singUp} = useAuth();
   const validatorConfig = {
     email: {
       isRequired: {
@@ -89,18 +88,13 @@ const RegisterForm = () => {
   },
   [data]);
   const isValid = Object.keys(errors).length === 0;
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
-    const { profession, qualities } = data;
+    const { qualities } = data;
     const newData = {...data, qualities: qualities.map(q=>q.value)};
-    try {
-      await singUp(newData);
-      history.push('/');
-    } catch (error) {
-      setErrors(error);
-    }
+    dispatch(sighUp(newData));
   };
   return (
     <form onSubmit={handleSubmit}>

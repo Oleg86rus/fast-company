@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { validator } from '../../utils/validator';
 import TextField from '../common/form/textField';
 import CheckboxField from '../common/form/checkboxField';
-import { useAuth } from '../../hooks/useAuth';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/users';
 
 const LoginForm = () => {
   const history = useHistory();
-  const {singIn} = useAuth();
+  const dispatch = useDispatch();
   const [data, setData] = useState({ email: '', password: '', stayOn: false });
   const [errors, setErrors] = useState({});
   const [enterError, setEnterError] = useState(null);
@@ -41,17 +42,12 @@ const LoginForm = () => {
   [data]);
   const isValid = Object.keys(errors).length === 0;
   
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
-    try {
-      await singIn(data);
-      history.push(history.location.state ? history.location.state.from.pathname : '/');
-    } catch (error) {
-      // setErrors(error);
-      setEnterError(error.message);
-    }
+    const redirect = history.location.state ? history.location.state.from.pathname : '/';
+    dispatch(login({payload: data, redirect}));
   };
   
   return (

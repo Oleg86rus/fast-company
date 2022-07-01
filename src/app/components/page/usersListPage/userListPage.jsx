@@ -8,24 +8,23 @@ import SearchStatus from '../../ui/searchStatus';
 import UserTable from '../../ui/usersTable';
 import Loading from '../../ui/loading';
 import SearchUsers from '../../ui/searchUsers';
-import { useUser } from '../../../hooks/useUsers';
-import { useProfessions } from '../../../hooks/useProfession';
-import { useAuth } from '../../../hooks/useAuth';
+import {
+  getProfessions,
+  getProfessionsLoadingStatus
+} from '../../../store/professions';
+import { useSelector } from 'react-redux';
+import { getCurrentUserId, getUsersList } from '../../../store/users';
 
 function UsersListPage () {
-  const { users } = useUser();
-  const {isLoading: professionsLoading, professions} = useProfessions();
-  const {currentUser} = useAuth();
+  const users = useSelector(getUsersList());
+  const professionsLoading = useSelector(getProfessionsLoadingStatus());
+  const professions = useSelector(getProfessions());
+  const currentUserId = useSelector(getCurrentUserId());
   const pageSize = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' });
   const [usersFound, setUsersFound] = useState('');
-  
-  const handleLineDelete = (id) => {
-    // setUsers(users.filter((user) => user._id !== id));
-    // console.log(id);
-  };
   
   const handleLineFindUser = (e) => {
     setSelectedProf(undefined);
@@ -63,7 +62,7 @@ function UsersListPage () {
         (user) =>
           JSON.stringify(user.profession) === JSON.stringify(selectedProf)
       ) : data;
-    return filteredUserList.filter(u=>u._id !== currentUser._id);
+    return filteredUserList.filter(u=>u._id !== currentUserId._id);
   }
   if (users) {
     const filteredUserList = filterUsers(users);
@@ -103,7 +102,6 @@ function UsersListPage () {
                 users={userCrop}
                 selectedSort={sortBy}
                 onSort={handleSort}
-                onDelete={handleLineDelete}
                 onToggleBookMark={handleToggleBookMark}
               />
             )}
