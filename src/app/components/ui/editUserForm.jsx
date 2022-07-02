@@ -7,19 +7,22 @@ import CheckboxField from '../common/form/checkboxField';
 import Loading from './loading';
 import { validator } from '../../utils/validator';
 import BackHistoryButton from '../common/backButton';
-import { useAuth } from '../../hooks/useAuth';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getQualities, getQualitiesLoadingStatus } from '../../store/qualities';
 import {
   getProfessions,
   getProfessionsLoadingStatus
 } from '../../store/professions';
-import { getCurrentUserData, getCurrentUserId } from '../../store/users';
+import {
+  getCurrentUserData,
+  getCurrentUserId,
+  updateUser
+} from '../../store/users';
 
 const EditUserForm = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
-  const {updateUser} = useAuth();
   const currentUser = useSelector(getCurrentUserData());
   const currentUserId = useSelector(getCurrentUserId());
   const professionLoading = useSelector(getProfessionsLoadingStatus());
@@ -112,10 +115,10 @@ const EditUserForm = () => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
-    await updateUser({
+    dispatch(updateUser({
       ...data,
       qualities: data.qualities.map(q=>q.value)
-    });
+    }));
     await history.push(`/users/${currentUserId}`);
   };
   return (

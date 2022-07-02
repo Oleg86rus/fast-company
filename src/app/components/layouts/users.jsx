@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import UserPage from '../page/userPage';
 import UsersListPage from '../page/usersListPage';
