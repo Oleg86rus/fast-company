@@ -8,9 +8,6 @@ import { useSelector } from 'react-redux';
 import { getCurrentUserId } from '../store/users';
 
 const CommentContext = React.createContext();
-export const useComments = () => {
-  return useContext(CommentContext);
-};
 
 export const CommentsProvider = ({children}) => {
   const {userId} = useParams();
