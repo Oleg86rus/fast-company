@@ -2,7 +2,6 @@ import { createAction, createSlice } from '@reduxjs/toolkit';
 import userService from '../service/user.service';
 import authService from '../service/auth.service';
 import localStorageService from '../service/localStorage.service';
-import { getRandomInt } from '../utils/getRandomInt';
 import history from '../utils/history';
 import { generateAuthError } from '../utils/generateAuthError';
 
@@ -74,14 +73,11 @@ const {
   usersRequestFailed,
   authRequestSuccess,
   authRequestFailed,
-  userCreated,
   userLoggedOut,
   userUpdate
 } = actions;
 
 const authRequested = createAction("users/authRequested");
-const userCreateRequested = createAction("user/userCreateRequested");
-const createUserFailed = createAction("user/userCreateRequested");
 const userUpdateRequested = createAction('users/userUpdateRequested');
 const userUpdateFailed = createAction('users/userUpdateFailed');
 
@@ -111,43 +107,19 @@ export const logOut = () => (dispatch) => {
   history.push('/');
 };
 
-export const sighUp = ({email, password, ...rest}) => async (dispatch) => {
+export const sighUp = (payload) => async (dispatch) => {
   dispatch(authRequested());
   try {
-    const data = await authService.register({email, password});
+    const data = await authService.register(payload);
     localStorageService.setTokens(data);
-    dispatch(authRequestSuccess({ userId: data.localId }));
-    // eslint-disable-next-line no-use-before-define
-    dispatch(createUser({
-      _id:data.localId,
-      email,
-      rate: getRandomInt(1, 5),
-      completedMeetings: getRandomInt(0, 200),
-      image: `https://avatars.dicebear.com/api/avataaars/${(
-        Math.random() + 1
-      )
-        .toString(36)
-        .substring(7)}.svg`,
-      ...rest
-    }));
+    dispatch(authRequestSuccess({ userId: data.userId }));
+    history.push('/users');
   } catch (error) {
     dispatch(authRequestFailed(error.message));
   }
 };
 
-function createUser(payload) {
-  return async function(dispatch) {
-    dispatch(userCreateRequested());
-    try {
-      const {content} = await userService.create(payload);
-      dispatch(userCreated(content));
-      history.push('/users');
-    } catch (error) {
-      dispatch(createUserFailed(error.message));
-    }
-  };}
-
-export const loadUsersList = () => async (dispatch, getState) => {
+export const loadUsersList = () => async (dispatch) => {
   dispatch(usersRequested());
   try {
     const { content } = await userService.get();

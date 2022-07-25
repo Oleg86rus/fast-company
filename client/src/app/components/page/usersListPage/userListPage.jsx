@@ -62,7 +62,9 @@ function UsersListPage () {
         (user) =>
           JSON.stringify(user.profession) === JSON.stringify(selectedProf)
       ) : data;
-    return filteredUserList.filter(u=>u._id !== currentUserId._id);
+    console.log(filteredUserList);
+    console.log(currentUserId);
+    return filteredUserList.filter(u=>u._id !== currentUserId);
   }
   if (users) {
     const filteredUserList = filterUsers(users);

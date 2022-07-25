@@ -23,8 +23,9 @@ router
 				...req.body,
 				userId: req.user._id
 			})
-			res.status(201).json(newComment)
+			res.status(201).send(newComment)
 		} catch (e) {
+			console.log(e.message)
 			res.status(500).json({
 				message: 'На сервере произошла ошибка. Попробуйте позже'
 			})
