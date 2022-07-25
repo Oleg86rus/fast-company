@@ -6,9 +6,9 @@ import {
 } from '../../store/professions';
 import { useSelector } from 'react-redux';
 
-const Profession = (user) => {
+const Profession = ({ id }) => {
   const isLoading = useSelector(getProfessionsLoadingStatus());
-  const getProfession = useSelector(getProfessionsByIds(user.profession._id));
+  const getProfession = useSelector(getProfessionsByIds(id));
   if (!isLoading) {
     return <p>{getProfession.name}</p>;
   }
