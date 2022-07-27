@@ -1,4 +1,4 @@
 {
-  "apiEndPoint": "http://localhost:8080/api",
+  "apiEndPoint": "http://development-pov.ru/api",
   "isFireBase": false
 }

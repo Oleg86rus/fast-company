@@ -24,8 +24,6 @@ const RegisterForm = () => {
   const qualities = useSelector(getQualities());
   const [errors, setErrors] = useState({});
   const professions = useSelector(getProfessions());
-  console.log(qualities);
-  console.log(professions);
   const handleChange = (target) => {
     setData((prevState) => ({ ...prevState, [target.name]: target.value }));
   };

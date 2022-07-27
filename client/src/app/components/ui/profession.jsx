@@ -15,8 +15,7 @@ const Profession = ({ id }) => {
   return 'Loading ...';
 };
 Profession.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string
+  id: PropTypes.string
 };
 
 export default Profession;
