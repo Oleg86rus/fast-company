@@ -9,20 +9,18 @@ import {
 } from '../../store/comments';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getCurrentUserId } from '../../store/users';
 
 const Comments = () => {
   const { userId } = useParams();
   const dispatch = useDispatch();
   const comments = useSelector(getComments());
-  const currentUserId = useSelector(getCurrentUserId());
   
   useEffect(() => {
     dispatch(loadCommentsList(userId));
   }, [userId]);
   const isLoading = useSelector(getCommentsLoadingStatus());
   const handleSubmit = (data) => {
-    dispatch(createComment(data, userId, currentUserId));
+    dispatch(createComment({ ...data, pageId: userId }));
   };
   const handleRemoveComment = (id) => {
     dispatch(removeComment(id));

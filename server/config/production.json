@@ -1,0 +1,7 @@
+{
+  "port": 8080,
+  "mongoUri": "mongodb+srv://oleg:9ZYGdIfgV2UuErAv@cluster0.8skyn.mongodb.net/?retryWrites=true&w=majority",
+  "accessSecret": "super secret from BACKEND",
+  "refreshSecret": "super refresh key",
+  "socketPath": "/tmp/mysql.sock"
+}

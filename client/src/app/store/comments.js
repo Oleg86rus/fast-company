@@ -56,17 +56,10 @@ export const loadCommentsList = (userId) => async (dispatch) => {
     dispatch(commentsRequestFiled(error.message));
   }
 };
-export const createComment = (data, userId, currentUserId) => async (dispatch) => {
+export const createComment = (payload) => async (dispatch) => {
   dispatch(commentCreateRequested());
-  const comment = {
-    ...data,
-    _id: nanoid(),
-    pageId: userId,
-    created_at: Date.now(),
-    userId: currentUserId
-  };
   try {
-    const {content} = await commentService.createComment(comment);
+    const {content} = await commentService.createComment(payload);
     dispatch(commentCreate(content));
   } catch (error) {
     dispatch(commentCreateFailed(error.message));
@@ -77,7 +70,7 @@ export const removeComment = (id) => async (dispatch) => {
   dispatch(commentRemoveRequested());
   try {
     const {content} = await commentService.removeComment(id);
-    if (content === null) dispatch(commentRemove(id));
+    if (!content) dispatch(commentRemove(id));
   } catch (error) {
     dispatch(commentRemoveFailed(error.message));
   }

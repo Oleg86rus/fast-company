@@ -24,7 +24,6 @@ const RegisterForm = () => {
   const qualities = useSelector(getQualities());
   const [errors, setErrors] = useState({});
   const professions = useSelector(getProfessions());
-  
   const handleChange = (target) => {
     setData((prevState) => ({ ...prevState, [target.name]: target.value }));
   };
@@ -85,8 +84,7 @@ const RegisterForm = () => {
   
   useEffect(() => {
     validate();
-  },
-  [data]);
+  }, [data]);
   const isValid = Object.keys(errors).length === 0;
   const handleSubmit = (e) => {
     e.preventDefault();
