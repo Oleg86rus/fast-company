@@ -22,10 +22,10 @@ function UsersListPage () {
   const currentUserId = useSelector(getCurrentUserId());
   const pageSize = 8;
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedProf, setSelectedProf] = useState();
+  const [selectedProf, setSelectedProf] = useState('');
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' });
   const [usersFound, setUsersFound] = useState('');
-  
+
   const handleLineFindUser = (e) => {
     setSelectedProf(undefined);
     setUsersFound(e.target.value);
@@ -40,8 +40,8 @@ function UsersListPage () {
     });
   };
   const handleProfessionSelect = (item) => {
-    if (usersFound !== "") setUsersFound("");
-    setSelectedProf(item);
+    if (selectedProf !== "") setUsersFound("");
+    setSelectedProf(item._id);
   };
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex);
