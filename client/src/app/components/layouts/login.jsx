@@ -33,7 +33,7 @@ const Login = () => {
                 <h3 className="mb-4">Login</h3>
                 <LoginForm/>
                 <p>Еще нет аккаунта? <a role="button"
-                  onClick={toggleFormType}>Зарегестрироваться</a>
+                  onClick={toggleFormType}>Зарегистрироваться</a>
                 </p>
               </>
             )
