@@ -24,12 +24,12 @@ async function createInitialEntity(Model, data) {
 
 module.exports = async () => {
 	const professions = await Profession.find()
-	if (professions.length !== professionsMock) {
+	if (professions.length !== professionsMock.length) {
 		await createInitialEntity(Profession, professionsMock)
 	}
 	
 	const qualities = await Quality.find()
-	if (qualities.length !== qualitiesMock) {
+	if (qualities.length !== qualitiesMock.length) {
 		await createInitialEntity(Quality, qualitiesMock)
 	}
 }
