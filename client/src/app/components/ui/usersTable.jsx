@@ -44,7 +44,6 @@ const UserTable = ({
       )
     }
   };
-  console.log(users);
   const caret = (path) => {
     if (path === selectedSort.path) {
       const caretDirection = selectedSort.order === 'asc'

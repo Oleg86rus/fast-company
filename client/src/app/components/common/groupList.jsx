@@ -14,7 +14,7 @@ const GroupList = ({
         <li
           key={item[valueProperty]}
           className={
-            'list-group-item' + (item === selectedItem ? ' active' : '')
+            'list-group-item' + (item._id === selectedItem ? ' active' : '')
           }
           onClick={() => onItemSelect(item)}
           role={'button'}
@@ -34,6 +34,6 @@ GroupList.propTypes = {
   valueProperty: PropTypes.string.isRequired,
   contentProperty: PropTypes.string.isRequired,
   onItemSelect: PropTypes.func,
-  selectedItem: PropTypes.object
+  selectedItem: PropTypes.string
 };
 export default GroupList;

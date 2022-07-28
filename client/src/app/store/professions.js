@@ -47,8 +47,6 @@ export const getProfessions = () => (state) => state.professions.entities;
 export const getProfessionsLoadingStatus = () => (state) => state.professions.isLoading;
 
 export const getProfessionsByIds = (professionsIds) => state => {
-  console.log(state.professions.entities);
-  console.log(professionsIds);
   if (state.professions.entities && professionsIds) {
     return state.professions.entities.find(el=>el._id === professionsIds);
   }
