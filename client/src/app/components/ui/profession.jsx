@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 const Profession = ({ id }) => {
   const isLoading = useSelector(getProfessionsLoadingStatus());
   const getProfession = useSelector(getProfessionsByIds(id));
-  if (!isLoading) {
+  if (!isLoading && getProfession) {
     return <p>{getProfession.name}</p>;
   }
   return 'Loading ...';
