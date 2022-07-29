@@ -19,7 +19,7 @@ const GroupList = ({
           onClick={() => onItemSelect(item)}
           role={'button'}
         >
-          {item[contentProperty]}
+          {item.name}
         </li>
       ))}
     </ul>

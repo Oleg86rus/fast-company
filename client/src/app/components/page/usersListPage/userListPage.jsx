@@ -20,7 +20,7 @@ function UsersListPage () {
   const professionsLoading = useSelector(getProfessionsLoadingStatus());
   const professions = useSelector(getProfessions());
   const currentUserId = useSelector(getCurrentUserId());
-  const pageSize = 8;
+  const pageSize = 2;
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProf, setSelectedProf] = useState('');
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' });
@@ -40,7 +40,7 @@ function UsersListPage () {
     });
   };
   const handleProfessionSelect = (item) => {
-    if (selectedProf !== "") setUsersFound("");
+    if (usersFound !== "") setUsersFound("");
     setSelectedProf(item._id);
   };
   const handlePageChange = (pageIndex) => {
